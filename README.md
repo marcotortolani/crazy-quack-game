@@ -3,7 +3,7 @@
 ⚔️ Introducción y Premisa
 Crazy Quack es un top-down shooter de supervivencia con elementos roguelite, ambientado en un zoológico post-apocalíptico y oscuro.
 
-Asume el papel del Pato Loco, un ganso amarillo con una bandana roja y gafas de aviador, que ha alcanzado su punto de quiebre. El juego arranca con el Pato triunfante, de pie sobre una pila de restos y escombros, listo para enfrentarse a las hordas de animales mutados en un paisaje dominado por un eclipse rojo sobre una ciudad en ruinas.
+Asume el papel del Pato Loco, un pato amarillo con una bandana roja y gafas de aviador, que ha alcanzado su punto de quiebre. El juego arranca con el Pato triunfante, de pie sobre una pila de restos y escombros, listo para enfrentarse a las hordas de animales mutados en un paisaje dominado por un eclipse rojo sobre una ciudad en ruinas.
 
 Tu misión es simple: Sobrevivir al asedio y desatar el caos.
 
@@ -17,8 +17,7 @@ Diseño: Los menús y elementos de UI mantienen una coherencia visual utilizando
 Portada del Juego
 Ubicación Sugerida de la Imagen: assets/images/crazy-quack-pixelart-menu_screen-05.jpg
 
-[/assets/images/crazy-quack-pixelart-menu_screen-05.jpg]
-(Aquí se insertaría la imagen del Pato con las pistolas, de pie sobre los escombros, y el eclipse rojo en el cielo).
+[/Assets/Images/menu_screen.png]
 
 ⚙️ Características del Juego
 Género: Top-Down Shooter de Supervivencia (Bullet Heaven).
