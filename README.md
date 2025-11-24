@@ -1,76 +1,70 @@
-🦆 Crazy Quack
+# 🦆 Crazy Quack
 
-⚔️ Introducción y Premisa
-Crazy Quack es un top-down shooter de supervivencia con elementos roguelite, ambientado en un zoológico post-apocalíptico y oscuro.
+## ⚔️ Introducción y Premisa
 
-Asume el papel del Pato Loco, un pato amarillo con una bandana roja y gafas de aviador, que ha alcanzado su punto de quiebre. El juego arranca con el Pato triunfante, de pie sobre una pila de restos y escombros, listo para enfrentarse a las hordas de animales mutados en un paisaje dominado por un eclipse rojo sobre una ciudad en ruinas.
+**Crazy Quack** es un *top-down shooter* de supervivencia con elementos roguelite, ambientado en un zoológico que se convierte en el escenario de una venganza irracional.
 
-Tu misión es simple: Sobrevivir al asedio y desatar el caos.
+El protagonista es un **Pato** que vivía tranquilamente con su amiga, una rana, en la granja del zoológico. Alguien mata a la rana, y el Pato, sin saber quién es el culpable, comienza a sospechar de los otros animales. Este evento desencadena su locura. En su pequeño círculo de vida, el Pato experimenta un **apocalipsis personal**, y todo el juego se desarrolla en el caos que sigue a este dramático evento.
 
-🎨 Concepto y Estilo de Arte
-El juego está diseñado con una estética de Pixel Art de alta definición (32x32).
+Asume el papel del Pato, vestido con una bandana roja y gafas de aviador, listo para desatar el caos. Tu misión es simple: **Sobrevivir al asedio y desatar el caos.**
 
-Atmósfera: Oscura, ominosa y caótica, pero con un toque de brillantez neón de estilo arcade.
+---
 
-Diseño: Los menús y elementos de UI mantienen una coherencia visual utilizando tonos morados, rojos oscuros y grises sombríos, con elementos de madera deteriorada y fuentes pixel art.
+## 🎨 Concepto y Estilo de Arte
 
-Portada del Juego
-Ubicación Sugerida de la Imagen: assets/images/crazy-quack-pixelart-menu_screen-05.jpg
+El juego está diseñado con una estética de **Pixel Art de alta definición (32x32)**.
 
-[/Assets/Images/menu_screen.png]
+* **Atmósfera:** Caótica, oscura, pero con un toque de brillantez neón de estilo *arcade*.
+* **Diseño:** Los menús y elementos de UI mantienen una coherencia visual utilizando tonos morados, rojos oscuros y grises sombríos.
+* **Locura Progresiva (Bullet Heaven):** El juego se vuelve un *Bullet Heaven* a medida que la locura del Pato se incrementa, resultando en más disparos y una locura de proyectiles lanzados.
 
-⚙️ Características del Juego
-Género: Top-Down Shooter de Supervivencia (Bullet Heaven).
+### **Portada del Juego**
 
-Controles: Movimiento (WASD) y Apuntado/Disparo (Mouse) [Basado en la generación de keycaps].
+![Imagen de la pantalla de menú del juego Crazy Quack: El Pato sobre la pila de escombros bajo un eclipse rojo.](/Assets/Images/menu_screen.png)
 
-Progresión: Sistema de Subida de Nivel basado en la supervivencia. Cada nivel ofrece mejoras y upgrades aleatorios para armas y habilidades.
+---
 
-Personaje Principal: El Pato Loco, con su animación Idle lista para la acción.
+## ⚙️ Características del Juego
 
-Enemigos: Variedad de animales de zoológico pixelados y grotescos, incluyendo cerdos, conejos, gallinas y plantas mutadas.
+* **Género:** *Top-Down Shooter* de Supervivencia (*Bullet Heaven*).
+* **Controles:** Movimiento (WASD) y Apuntado/Disparo (Mouse).
+* **Progresión:** Sistema de Subida de Nivel basado en la supervivencia. Cada nivel ofrece mejoras y *upgrades* aleatorios para armas y habilidades.
+* **Armamento Progresivo:**
+    * **Inicio (Nivel 1):** El Pato comienza disparando **huevos**.
+    * **Upgrade (Nivel 2):** El Pato mejora su arma y, en lugar de huevos, dispara **piedras**, lo que incrementa el daño.
+    * **Nivel 3 (Posibilidad Futura):** Se deja la puerta abierta para un futuro Nivel 3 donde el Pato podría usar una **pistola** o un arma más contundente.
 
-🗺️ Diseño de Niveles
-El juego te lleva a través de las distintas zonas destruidas del zoológico, cada una con su propia ambientación y desafíos.
+---
 
-Nivel de Entrenamiento (Tutorial/Prólogo)
-Ambientación: Un área de transición neutra o un búnker improvisado.
+## 🗺️ Diseño de Niveles
 
-Objetivo: Introducir los controles básicos de movimiento (WASD) y ataque (Mouse).
+El juego te lleva a través de las distintas zonas de la granja/zoológico, reflejando el escalamiento de la amenaza y la locura del Pato.
 
-Enemigos: Una oleada controlada de enemigos muy débiles (ej. Conejos o pollos pequeños) para familiarizar al jugador con el loop de juego.
+### **Nivel de Entrenamiento (Tutorial/Prólogo)**
 
-Nivel 1: El Estanque (El Despertar)
-Ambientación: El estanque del zoológico. Un entorno acuático, lodoso y con vegetación podrida. La atmósfera es húmeda y tensa [Basado en la planificación de niveles].
+* **Objetivo:** Introducir los controles básicos de movimiento y ataque.
+* **Arma Inicial:** Huevos.
 
-Desafío Principal: Introducción a enemigos de alta velocidad y alcance medio.
+### **Nivel 1: El Estanque (La Venganza Inicial)**
 
-Enemigos Clave (Ejemplo):
+* **Ambientación:** El estanque del zoológico. Un entorno acuático, lodoso y con vegetación podrida.
+* **Rol:** Primer lugar donde el Pato encuentra animales y desata su locura.
+* **Arma:** Huevos.
 
-Flamenco: Enemigo rápido, de baja salud, que se mueve en patrones erráticos.
+### **Nivel 2: El Corral (Escalada de la Locura)**
 
-Pelícano: Enemigo que se mueve lentamente, pero con un área de ataque mayor o mayor HP.
+* **Ambientación:** La zona de animales de granja/corrales. El terreno es barro y tierra, con cercas de madera rotas.
+* **Desafío Principal:** Lidia con enemigos más resistentes y la introducción de la amenaza estática (Jabalí).
+* **Arma:** Piedras (Upgrade de arma).
 
-Nivel 2: El Corral (El Asedio)
-Ambientación: La zona de animales de granja/corrales. El terreno es barro y tierra, con cercas de madera rotas [Basado en la planificación de niveles].
+---
 
-Desafío Principal: Lidia con enemigos de alta resistencia y la introducción de amenazas estáticas.
+## 👨‍💻 Créditos
 
-Enemigos Clave (Ejemplo):
+Este juego fue desarrollado para el proyecto de la asignatura **Programación I**.
 
-Jabalí: Enemigo terrestre resistente que carga al jugador.
-
-Tirador Fijo (Ej. Planta Carnívora Mutada): Enemigo estático que dispara proyectiles de largo alcance (ej. huevos o lodo).
-
-👨‍💻 Créditos
-Este juego fue desarrollado para el proyecto de la asignatura Programación I.
-
-Desarrollado por:
-
-Sofía Brizuela
-
-Marco Tortolani
-
-Institución: Escuela Da Vinci
-
-Año: 2025
+* **Desarrollado por:**
+    * Sofía Brizuela
+    * Marco Tortolani
+* **Institución:** Escuela Da Vinci
+* **Año:** 2025
