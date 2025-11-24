@@ -30,7 +30,7 @@ El juego está diseñado con una estética de **Pixel Art de alta definición (3
 * **Controles:** Movimiento (WASD) y Apuntado/Disparo (Mouse).
 * **Progresión:** Sistema de Subida de Nivel basado en la supervivencia. Cada nivel ofrece mejoras y *upgrades* aleatorios para armas y habilidades.
 * **Armamento Progresivo:**
-    * **Inicio (Nivel 1):** El Pato comienza disparando **huevos**.
+    * **Inicio (Nivel 1):** El Pato comienza disparando **huevos**. (Tipos de Huevo: Normal, Fuego, Radiactivo, Podrido)
     * **Upgrade (Nivel 2):** El Pato mejora su arma y, en lugar de huevos, dispara **piedras**, lo que incrementa el daño.
     * **Nivel 3 (Posibilidad Futura):** Se deja la puerta abierta para un futuro Nivel 3 donde el Pato podría usar una **pistola** o un arma más contundente.
 
