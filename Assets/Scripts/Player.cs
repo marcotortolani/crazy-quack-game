@@ -14,9 +14,9 @@ public class Player : MonoBehaviour
     public int bulletsPerSecond = 4;
     
     // variables privadas para el cálculo de la frecuencia de spawneo
-    private float nextFireTime = 0f;
-    private float bulletFireRate;
-    private int lastUpgradeSecond = 0;
+    private float _nextFireTime = 0f;
+    private float _bulletFireRate;
+    private int _lastUpgradeSecond = 0;
 
     private void Start()
     {
@@ -31,9 +31,9 @@ public class Player : MonoBehaviour
         if(!GameManager.Instance) return;
         if (!GameManager.Instance.playerIsDead && !GameManager.Instance.playerIsWin)
         {
-            if (Time.time >= nextFireTime)
+            if (Time.time >= _nextFireTime)
             {
-                nextFireTime = Time.time + bulletFireRate;
+                _nextFireTime = Time.time + _bulletFireRate;
                 ShootDirection();
             }
         }
@@ -44,11 +44,11 @@ public class Player : MonoBehaviour
     { 
         if (bulletsPerSecond > 0)
         {
-            bulletFireRate = 1f / bulletsPerSecond;
+            _bulletFireRate = 1f / bulletsPerSecond;
         }
         else
         {
-            bulletFireRate = 0.25f; // valor por defecto si es 0 o negativo - 4 bullets por segundo
+            _bulletFireRate = 0.25f; // valor por defecto si es 0 o negativo - 4 bullets por segundo
         }
         
     }
@@ -67,6 +67,10 @@ public class Player : MonoBehaviour
         // Spawn bullets
         Quaternion angleAdjustment = Quaternion.Euler(0, 0, -90);
         Instantiate(bullet, bulletSpawnOrigin.transform.position, gun.transform.rotation * angleAdjustment);
+        // audioSource.pitch = Random.Range(0.9f, 1.1f);
+        // audioSource.volume = 0.7f;
+        // audioSource.PlayOneShot(bulletSound);
+        AudioManager.Instance.PlaySound("PlayerShoot");
     }
 
     private void Movement()
@@ -95,10 +99,10 @@ public class Player : MonoBehaviour
 
     private void IncreaseBulletsRate()
     {
-        if (GameManager.Instance.secondsAlive >= lastUpgradeSecond + 10)
+        if (GameManager.Instance.secondsAlive >= _lastUpgradeSecond + 10)
         {
             bulletsPerSecond += 1;
-            lastUpgradeSecond = GameManager.Instance.secondsAlive;
+            _lastUpgradeSecond = GameManager.Instance.secondsAlive;
             Debug.Log("Velocidad de disparo: " + bulletsPerSecond);
         }
     }

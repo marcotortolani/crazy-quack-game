@@ -6,6 +6,8 @@ public class Enemy : MonoBehaviour
     public float speedRotation;
     public Transform target;
     public int life;
+    
+    public GameObject deathEffect;
 
     private void Start()
     {
@@ -55,7 +57,10 @@ public class Enemy : MonoBehaviour
             {
                 GameManager.Instance.enemiesKilled++;
             }
+            Instantiate(deathEffect, transform.position, Quaternion.identity);
+            AudioManager.Instance.PlaySound("EnemyDeath");
             Destroy(gameObject);
+            
         }
     }
 

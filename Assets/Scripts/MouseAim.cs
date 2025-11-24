@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class MouseAim : MonoBehaviour
 {
-    private Camera mainCamera;
+    private Camera _mainCamera;
     public float targetZ = 0f; 
     void Start()
     {
-        mainCamera = Camera.main;
+        _mainCamera = Camera.main;
         Cursor.visible = false;
         UpdatePosition();
     }
@@ -18,9 +18,9 @@ public class MouseAim : MonoBehaviour
     void UpdatePosition()
     {
         Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = mainCamera.transform.position.z - transform.position.z;
+        mousePosition.z = _mainCamera.transform.position.z - transform.position.z;
         
-        Vector3 worldPosition = mainCamera.ScreenToWorldPoint(mousePosition);
+        Vector3 worldPosition = _mainCamera.ScreenToWorldPoint(mousePosition);
 
         // Forzar la posición Z de la mira al plano de juego.
         worldPosition.z = targetZ; 

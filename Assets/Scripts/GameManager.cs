@@ -12,10 +12,9 @@ public class GameManager : MonoBehaviour
     public bool playerIsDead  = false;
     public bool playerIsWin = false;
 
-    private float timeCounter = 0f;
-    
-    private bool hasShownWinMessage = false;
-    private bool hasShownLoseMessage = false;
+    private float _timeCounter = 0f;
+    private bool _hasShownWinMessage = false;
+    private bool _hasShownLoseMessage = false;
     
     private void Awake()
     {
@@ -40,12 +39,12 @@ public class GameManager : MonoBehaviour
             PlayerWin();
         }
         
-        if (playerIsDead && !hasShownLoseMessage)
+        if (playerIsDead && !_hasShownLoseMessage)
         {
             Debug.Log("El Player está muerto");
             Debug.Log("Perdiste");
             PrintStatus();
-            hasShownLoseMessage = true;
+            _hasShownLoseMessage = true;
         }
         
     }
@@ -54,8 +53,8 @@ public class GameManager : MonoBehaviour
     {
         if (!playerIsDead && !playerIsWin)
         {
-            timeCounter += Time.deltaTime; 
-            secondsAlive = (int)timeCounter; 
+            _timeCounter += Time.deltaTime; 
+            secondsAlive = (int)_timeCounter; 
             
             // Verificar si alcanzó el tiempo objetivo
             if (secondsAlive >= secondsToSurvive)
@@ -67,13 +66,13 @@ public class GameManager : MonoBehaviour
 
     private void PlayerWin()
     {
-        if (!hasShownWinMessage)
+        if (!_hasShownWinMessage)
         {
             playerIsWin = true;
             Debug.Log("El Player sobrevivió");
             Debug.Log("Ganaste");
             PrintStatus();
-            hasShownWinMessage = true;
+            _hasShownWinMessage = true;
         }
     }
 

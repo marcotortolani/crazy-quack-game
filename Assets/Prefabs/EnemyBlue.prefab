@@ -104,6 +104,7 @@ MonoBehaviour:
   speedRotation: 1
   target: {fileID: 0}
   life: 60
+  deathEffect: {fileID: 4553287630450876385, guid: 15483e51212e3d74886ea57291f4639a, type: 3}
 --- !u!58 &-1525348929589676523
 CircleCollider2D:
   m_ObjectHideFlags: 0

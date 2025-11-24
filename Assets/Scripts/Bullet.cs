@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
     public int bulletDamage;
     public int maxBounces = 3;
     
-    private int currentBounces = 0;
+    private int _currentBounces = 0;
 
     private void Update()
     {
@@ -18,8 +18,8 @@ public class Bullet : MonoBehaviour
         // Colision con paredes, destruir balas despues de X rebotes
         if (collision.gameObject.CompareTag("Wall"))
         {
-            currentBounces++;
-            if (currentBounces >= maxBounces)
+            _currentBounces++;
+            if (_currentBounces >= maxBounces)
             {
                 Destroy(gameObject);
                 return;
@@ -38,6 +38,7 @@ public class Bullet : MonoBehaviour
             
         }
 
+        // Colision con enemigos
         Enemy enemy = collision.gameObject.GetComponent<Enemy>();
         if (enemy != null)
         {
