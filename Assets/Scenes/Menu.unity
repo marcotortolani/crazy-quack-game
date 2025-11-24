@@ -769,7 +769,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -1200, y: -390}
+  m_AnchoredPosition: {x: -1400, y: -390}
   m_SizeDelta: {x: 400, y: 600}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &362897824
@@ -844,8 +844,8 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 362897822}
   m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 0
+  m_Alpha: 1
+  m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &388687622
@@ -1724,7 +1724,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5d487f2fa13b44e32a324e8f78968497, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ab1db5c2ff3494535bc6a6b0c6623243, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2263,9 +2263,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuCanvasGroup: {fileID: 1640739335}
   levelsCanvasGroup: {fileID: 362897827}
-  menuScreenCanvasGroup: {fileID: 2008776265}
-  controlsScreenCanvasGroup: {fileID: 539514746}
-  creditsCanvasGroup: {fileID: 302210041}
+  menuScreenCanvasGroup: {fileID: 2008776264}
+  controlsScreenCanvasGroup: {fileID: 539514745}
+  creditsScreenCanvasGroup: {fileID: 302210040}
 --- !u!1 &821685563
 GameObject:
   m_ObjectHideFlags: 0

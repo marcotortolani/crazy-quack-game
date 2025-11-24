@@ -8,9 +8,9 @@ public class MenuController : MonoBehaviour
 
     public CanvasGroup menuCanvasGroup;
     public CanvasGroup levelsCanvasGroup;
-    public CanvasGroup menuScreenCanvasGroup;
-    public CanvasGroup controlsScreenCanvasGroup;
-    public CanvasGroup creditsCanvasGroup;
+    public RectTransform menuScreenCanvasGroup;
+    public RectTransform controlsScreenCanvasGroup;
+    public RectTransform creditsScreenCanvasGroup;
 
     private void Start()
     {
@@ -20,56 +20,36 @@ public class MenuController : MonoBehaviour
 
     public void GoToMenuPanel()
     {
-        levelsCanvasGroup.transform.DOMoveX(-400f, 0.25f ).OnComplete(() =>
+        levelsCanvasGroup.transform.DOMoveX(-400f, 0.25f ).SetEase(Ease.InOutCubic).OnComplete(() =>
         {
-            menuCanvasGroup.interactable = false;
             menuCanvasGroup.transform.DOMoveX(100f, 0.25f);
-            menuCanvasGroup.DOFade(1, 0.3f);
-            menuCanvasGroup.interactable = true;
         });
     }
 
     public void GoToLevelsPanel()
     {
-        menuCanvasGroup.transform.DOMoveX(-400f, 0.25f ).OnComplete(() =>
+        menuCanvasGroup.transform.DOMoveX(-400f, 0.25f ).SetEase(Ease.InOutCubic).OnComplete(() =>
         {
-            menuCanvasGroup.interactable = false;
             levelsCanvasGroup.transform.DOMoveX(100f, 0.25f);
-            levelsCanvasGroup.DOFade(1, 0.3f);
-            levelsCanvasGroup.interactable = true;
         });
     }
     
     // Transición horizontal (izquierda/derecha)
-    private void SlideHorizontal(CanvasGroup fromScreen, CanvasGroup toScreen, float duration = 0.5f)
+    private void SlideHorizontal(RectTransform fromScreen, RectTransform toScreen, float duration = 0.5f)
     {
-        fromScreen.interactable = false;
-        toScreen.interactable = false;
-    
         // Determinar dirección basándose en posiciones actuales
         float fromTargetX = fromScreen.transform.localPosition.x < toScreen.transform.localPosition.x ? -2000f : 2000f;
-    
-        fromScreen.transform.DOLocalMoveX(fromTargetX, duration);
-        toScreen.transform.DOLocalMoveX(0f, duration).OnComplete(() =>
-        {
-            toScreen.interactable = true;
-        });
+        fromScreen.DOAnchorPosX(fromTargetX, duration);
+        toScreen.DOAnchorPosX(0f, duration);
     }
 
     // Transición vertical (arriba/abajo)
-    private void SlideVertical(CanvasGroup fromScreen, CanvasGroup toScreen, float duration = 0.5f)
+    private void SlideVertical(RectTransform fromScreen, RectTransform toScreen, float duration = 0.5f)
     {
-        fromScreen.interactable = false;
-        toScreen.interactable = false;
-    
         // Determinar dirección basado en posiciones actuales
         float fromTargetY = fromScreen.transform.localPosition.y < toScreen.transform.localPosition.y ? -1200f : 1200f;
-    
-        fromScreen.transform.DOLocalMoveY(fromTargetY, duration);
-        toScreen.transform.DOLocalMoveY(0f, duration).OnComplete(() =>
-        {
-            toScreen.interactable = true;
-        });
+        fromScreen.DOAnchorPosY(fromTargetY, duration);
+        toScreen.DOAnchorPosY(0f, duration);
     }
 
     // Slides entre pantallas del menú
@@ -85,12 +65,12 @@ public class MenuController : MonoBehaviour
 
     public void GoToCreditsScreen()
     {
-        SlideVertical(menuScreenCanvasGroup, creditsCanvasGroup);
+        SlideVertical(menuScreenCanvasGroup, creditsScreenCanvasGroup);
     }
 
     public void GoToMenuFromCredits()
     {
-        SlideVertical(creditsCanvasGroup, menuScreenCanvasGroup);
+        SlideVertical(creditsScreenCanvasGroup, menuScreenCanvasGroup);
     }
 
 
