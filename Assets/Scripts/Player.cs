@@ -115,6 +115,8 @@ public class Player : MonoBehaviour
     public void TakeDamage(int amount)
     {
         life -= amount;
+        if (life < 0) life = 0;
+        
         Debug.Log("Recibiste daño, vida actual: " + life);
         
         if (life <= 0)
@@ -124,6 +126,7 @@ public class Player : MonoBehaviour
                 GameManager.Instance.playerIsDead = true;
             }
             Destroy(gameObject);
+            AudioManager.Instance.PlaySound("PlayerDeath");
         }
     }
 }
