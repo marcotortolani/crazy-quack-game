@@ -7,10 +7,15 @@ public class Enemy : MonoBehaviour
     public Transform target;
     public int life;
     
+    private SpriteRenderer spriteRenderer;
+    private Animator animator; // Si tienes animaciones de caminar
+    
     public GameObject deathEffect;
 
     private void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
         FindTarget();
     }
 
@@ -68,16 +73,34 @@ public class Enemy : MonoBehaviour
     {
         if (target != null)
         {
-            // Seguimiento + dirección mirando hacia el Player
             Vector3 direction = target.position - transform.position;
             direction.Normalize();
-            
-            transform.position += transform.up * (speed * Time.deltaTime);
+        
+            // Mover hacia el player
+            transform.position += direction * (speed * Time.deltaTime);
 
-            // Rotación con smooth
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            Quaternion targetRotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speedRotation * Time.deltaTime);
+            // Determinar la dirección predominante
+            if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+            {
+                // Movimiento horizontal predominante
+                if (direction.x < 0)
+                {
+                    spriteRenderer.flipX = false;  // Derecha
+                }
+                else
+                {
+                    spriteRenderer.flipX = true;  // Izquierda
+                }
+            }
+            // Si necesitas sprites diferentes para arriba/abajo, puedes usar animator
+        
+            // Para animaciones con 4 direcciones
+            //if (animator != null)
+            // {
+            //     animator.SetFloat("MovementX", direction.x);
+            //     animator.SetFloat("MovementY", direction.y);
+            // }
         }
     }
+   
 }

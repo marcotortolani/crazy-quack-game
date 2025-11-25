@@ -39,11 +39,50 @@ public class Bullet : MonoBehaviour
         }
 
         // Colision con enemigos
-        Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-        if (enemy != null)
+        // Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+        // if (enemy != null)
+        // {
+        //     enemy.TakeDamage(bulletDamage);
+        //     Destroy(gameObject);
+        // }
+        
+        // Colision con enemigos (usando Tag)
+        if (collision.gameObject.CompareTag("Enemy"))
         {
-            enemy.TakeDamage(bulletDamage);
-            Destroy(gameObject);
+            // Intentar con el script Enemy genérico
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(bulletDamage);
+                Destroy(gameObject);
+                return;
+            }
+
+            // Intentar con PigEnemy
+            PigEnemy pigEnemy = collision.gameObject.GetComponent<PigEnemy>();
+            if (pigEnemy != null)
+            {
+                pigEnemy.TakeDamage(bulletDamage);
+                Destroy(gameObject);
+                return;
+            }
+
+            // Intentar con MushroomEnemy
+            MushroomEnemy mushroomEnemy = collision.gameObject.GetComponent<MushroomEnemy>();
+            if (mushroomEnemy != null)
+            {
+                mushroomEnemy.TakeDamage(bulletDamage);
+                Destroy(gameObject);
+                return;
+            }
+            
+            PlantEnemy plantEnemy = collision.gameObject.GetComponent<PlantEnemy>();
+            if (plantEnemy != null)
+            {
+                plantEnemy.TakeDamage(bulletDamage);
+                Destroy(gameObject);
+                return;
+            }
         }
     }
     
