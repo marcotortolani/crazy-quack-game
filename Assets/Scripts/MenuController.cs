@@ -15,6 +15,7 @@ public class MenuController : MonoBehaviour
     private void Start()
     {
         DOTween.Init();
+        Cursor.visible = true;
     }
     
 

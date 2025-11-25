@@ -136,6 +136,27 @@ public class GameManager : MonoBehaviour
             _hasShownWinMessage = true;
         }
     }
+    
+    // Método para resetear el estado del juego
+    public void ResetGameState()
+    {
+        // Resetear variables de estado
+        secondsAlive = 0;
+        playerIsDead = false;
+        playerIsWin = false;
+        _timeCounter = 0f;
+        _hasShownWinMessage = false;
+        _hasShownLoseMessage = false;
+    
+        // Resetear contadores de kills
+        foreach (var objective in killObjectives)
+        {
+            objective.currentKills = 0;
+        }
+    
+        Debug.Log("GameManager reseteado");
+    }
+
 
     private void PrintStatus()
     {
