@@ -241,7 +241,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -1500996137, guid: b1093ddbf4d454393bb1fb875849eb57, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1892,7 +1892,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 777925484, guid: 8aeb2ee0e73c34522979762a54115c43, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2181,7 +2181,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 1948076721, guid: f1ba5a57411fb4ab0bf01bac88003444, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3026,6 +3026,36 @@ MonoBehaviour:
     killCountText: {fileID: 567205771}
   totalKillsText: {fileID: 1844523530}
   deathAlertPanel: {fileID: 616829535}
+  victoryPanel: {fileID: 0}
+  victoryTitleText: {fileID: 0}
+  victorySubtitleText: {fileID: 0}
+  nextLevelButton: {fileID: 0}
+  victoryMenuButton: {fileID: 0}
+  defeatPanel: {fileID: 0}
+  defeatTitleText: {fileID: 0}
+  defeatSubtitleText: {fileID: 0}
+  restartButton: {fileID: 0}
+  defeatMenuButton: {fileID: 0}
+  victorySubtitles:
+  - THE CRAZIEST QUAKER
+  - UNSTOPPABLE SURVIVOR
+  - LEGENDARY WARRIOR
+  - CHAOS MASTER
+  - FLAWLESS VICTORY
+  - ULTIMATE CHAMPION
+  - DEATH DEFIER
+  - MASTER OF MAYHEM
+  defeatSubtitles:
+  - BETTER LUCK NEXT TIME
+  - TRY AGAIN, WARRIOR
+  - DON'T GIVE UP
+  - ALMOST THERE...
+  - GAME OVER
+  - SO CLOSE!
+  - YOU'LL GET IT NEXT TIME
+  - PRACTICE MAKES PERFECT
+  nextLevelSceneName: Level2
+  menuSceneName: MainMenu
 --- !u!1 &1631555646
 GameObject:
   m_ObjectHideFlags: 0
@@ -3548,7 +3578,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -1173213988, guid: d14318247ef3a4c249915cef940d49d7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3788,7 +3818,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0

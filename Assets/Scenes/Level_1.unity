@@ -2058,7 +2058,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 1948076721, guid: f1ba5a57411fb4ab0bf01bac88003444, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3074,7 +3074,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -1894240506, guid: a448ad760c7b94d658d420ff5731c722, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3263,7 +3263,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -1173213988, guid: d14318247ef3a4c249915cef940d49d7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4050,7 +4050,7 @@ MonoBehaviour:
     killsRequired: 5
     currentKills: 0
     enemyIcon: {fileID: -1173213988, guid: d14318247ef3a4c249915cef940d49d7, type: 3}
-  secondsToSurvive: 20
+  secondsToSurvive: 10
   secondsAlive: 0
   playerIsDead: 0
   playerIsWin: 0
