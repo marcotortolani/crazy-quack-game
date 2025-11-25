@@ -94,28 +94,6 @@ public class MushroomEnemy : MonoBehaviour
         // Opcional: reproducir sonido de activación
         // AudioManager.Instance.PlaySound("MushroomActivate");
     }
-
-    // private void ChasePlayer()
-    // {
-    //     if (target == null) return;
-    //
-    //     // Calcular dirección hacia el player
-    //     Vector3 direction = target.position - transform.position;
-    //     direction.Normalize();
-    //
-    //     // Mover hacia el player
-    //     transform.position += direction * (chaseSpeed * Time.deltaTime);
-    //
-    //     // Flip del sprite según dirección
-    //     if (direction.x < 0)
-    //     {
-    //         spriteRenderer.flipX = false; // Izquierda
-    //     }
-    //     else if (direction.x > 0)
-    //     {
-    //         spriteRenderer.flipX = true; // Derecha
-    //     }
-    // }
     
     private void ChasePlayer()
     {
@@ -188,7 +166,7 @@ public class MushroomEnemy : MonoBehaviour
         // Contar como enemigo eliminado
         if (GameManager.Instance)
         {
-            GameManager.Instance.enemiesKilled++;
+            GameManager.Instance.RegisterEnemyKill("Mushroom"); // ← AGREGAR
         }
 
         // Destruir después de un pequeño delay para que se vea la animación

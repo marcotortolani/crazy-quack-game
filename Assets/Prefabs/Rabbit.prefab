@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f867f56aafe046d988672c54255cc00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: Rabbit
   speed: 5
   speedRotation: 2
   target: {fileID: 0}

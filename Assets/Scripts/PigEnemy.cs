@@ -220,7 +220,7 @@ public class PigEnemy : MonoBehaviour
     {
         if (GameManager.Instance)
         {
-            GameManager.Instance.enemiesKilled++;
+            GameManager.Instance.RegisterEnemyKill("Plant");
         }
         
         if (deathEffect != null)

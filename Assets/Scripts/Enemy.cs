@@ -2,15 +2,20 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("Enemy Type")]
+    public string enemyType = "Chicken"; // Configurable desde el Inspector
+    
+    [Header("Movement")]
     public float speed;
     public float speedRotation;
-    public Transform target;
+    
+    [Header("Stats")]
     public int life;
-    
-    private SpriteRenderer spriteRenderer;
-    private Animator animator; // Si tienes animaciones de caminar
-    
     public GameObject deathEffect;
+    
+    private Transform target;
+    private SpriteRenderer spriteRenderer;
+    private Animator animator;
 
     private void Start()
     {
@@ -33,6 +38,7 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    
     private void FindTarget()
     {
         Player player = FindObjectOfType<Player>();
@@ -52,7 +58,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-
     public void TakeDamage(int damage)
     {
         life -= damage;
@@ -60,12 +65,11 @@ public class Enemy : MonoBehaviour
         {
             if (GameManager.Instance)
             {
-                GameManager.Instance.enemiesKilled++;
+                GameManager.Instance.RegisterEnemyKill(enemyType); // ← Usar el campo enemyType
             }
             Instantiate(deathEffect, transform.position, Quaternion.identity);
             AudioManager.Instance.PlaySound("EnemyDeath");
             Destroy(gameObject);
-            
         }
     }
 
@@ -92,15 +96,6 @@ public class Enemy : MonoBehaviour
                     spriteRenderer.flipX = true;  // Izquierda
                 }
             }
-            // Si necesitas sprites diferentes para arriba/abajo, puedes usar animator
-        
-            // Para animaciones con 4 direcciones
-            //if (animator != null)
-            // {
-            //     animator.SetFloat("MovementX", direction.x);
-            //     animator.SetFloat("MovementY", direction.y);
-            // }
         }
     }
-   
 }
