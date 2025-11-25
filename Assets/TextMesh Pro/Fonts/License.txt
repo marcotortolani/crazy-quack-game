@@ -1,9 +1,8 @@
-Copyright 2011, The VT323 Project Authors (peter.hull@oikoi.com)
+﻿Copyright © 2023 GGBotNet (https://ggbot.net/fonts), with Reserved Font Name "Oldtimer".
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:
-https://openfontlicense.org
-
+http://scripts.sil.org/OFL
 
 -----------------------------------------------------------
 SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
