@@ -63,14 +63,42 @@ public class Enemy : MonoBehaviour
         life -= damage;
         if (life <= 0)
         {
-            if (GameManager.Instance)
-            {
-                GameManager.Instance.RegisterEnemyKill(enemyType); // ← Usar el campo enemyType
-            }
-            Instantiate(deathEffect, transform.position, Quaternion.identity);
-            AudioManager.Instance.PlaySound("EnemyDeath");
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    private void Die()
+    {
+        // Desactivar el collider inmediatamente para evitar más colisiones
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = false;
+    
+        // Desactivar el script para que no siga ejecutándose
+        enabled = false;
+    
+        // Registrar kill
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.RegisterEnemyKill(enemyType.ToString());
+        }
+    
+        // Efectos
+        if (deathEffect != null)
+        {
+            Instantiate(deathEffect, transform.position, Quaternion.identity);
+        }
+    
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySound("EnemyDeath");
+        }
+    
+        // Ocultar sprite inmediatamente
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null) sr.enabled = false;
+    
+        // Destruir con delay para evitar errores de referencia
+        Destroy(gameObject, 0.1f);
     }
 
     private void FollowingTarget()

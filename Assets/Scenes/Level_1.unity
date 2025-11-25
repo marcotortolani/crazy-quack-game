@@ -2345,14 +2345,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemiesToSpawn:
-  - amount: 5
-    prefab: {fileID: 2738097157706524336, guid: 074f1e39499f746058fd7b4ba4a2952d, type: 3}
   - amount: 3
-    prefab: {fileID: 6761786072314701700, guid: 12de612c4bd4c447cab8223fb32ed98e, type: 3}
+    prefab: {fileID: 2738097157706524336, guid: 074f1e39499f746058fd7b4ba4a2952d, type: 3}
   - amount: 2
-    prefab: {fileID: 4232532102682560373, guid: 74800242224ab431bbb682a7c15f5317, type: 3}
+    prefab: {fileID: 6761786072314701700, guid: 12de612c4bd4c447cab8223fb32ed98e, type: 3}
   - amount: 1
-    prefab: {fileID: 5748657235357602952, guid: d2f75d7a06b7b4e8f869fddba54e56d9, type: 3}
+    prefab: {fileID: 4232532102682560373, guid: 74800242224ab431bbb682a7c15f5317, type: 3}
   spawnTime: 3
   spawnTimeInit: 0
   spawnPoints:
@@ -4052,7 +4050,7 @@ MonoBehaviour:
     killsRequired: 5
     currentKills: 0
     enemyIcon: {fileID: -1173213988, guid: d14318247ef3a4c249915cef940d49d7, type: 3}
-  secondsToSurvive: 60
+  secondsToSurvive: 20
   secondsAlive: 0
   playerIsDead: 0
   playerIsWin: 0
@@ -4782,7 +4780,7 @@ MonoBehaviour:
   - SO CLOSE!
   - YOU'LL GET IT NEXT TIME
   - PRACTICE MAKES PERFECT
-  nextLevelSceneName: Level2
+  nextLevelSceneName: Level_2
   menuSceneName: Menu
 --- !u!1 &1631555646
 GameObject:

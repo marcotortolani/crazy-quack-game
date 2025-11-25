@@ -84,9 +84,20 @@ public class UiManager : MonoBehaviour
     {
         DOTween.Init();
         
+        // Buscar al player al inicio
+        player = FindObjectOfType<Player>();
+    
+        Debug.Log($"UiManager Start - Player encontrado: {player != null}");
+        Debug.Log($"UiManager Start - LifeBar asignado: {lifeBar != null}");
+    
+        if (player != null)
+        {
+            Debug.Log($"Player life: {player.life}/{player.maxLife}");
+        }
+        
         // Ocultar cursor al inicio del juego
         Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        
         
         // Configurar Death Alert
         if (deathAlertPanel != null)
@@ -115,8 +126,28 @@ public class UiManager : MonoBehaviour
             defeatMenuButton.onClick.AddListener(LoadMenu);
     }
 
-    void Update()
+    void LateUpdate()
     {
+        
+        // Si no tenemos referencia al player, intentar encontrarlo
+        if (player == null)
+        {
+            player = FindObjectOfType<Player>();
+            if (player == null)
+            {
+                return;
+            }
+            
+        }
+        
+        // Verificar que el player todavía existe
+        if (player.gameObject == null)
+        {
+            player = null;
+            return;
+        }
+        
+        
         // Verificar condiciones de fin de juego
         if (GameManager.Instance != null && !hasShownEndScreen)
         {
@@ -176,9 +207,11 @@ public class UiManager : MonoBehaviour
     {
         if (victoryPanel == null) return;
         
+        // Pausar el juego
+        Time.timeScale = 0f;
+        
         // Mostrar y desbloquear cursor
         Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
         
         // Ocultar alerta de muerte si está activa
         if (deathAlertPanel != null)
@@ -198,20 +231,20 @@ public class UiManager : MonoBehaviour
         if (cg == null) cg = victoryPanel.AddComponent<CanvasGroup>();
         
         cg.alpha = 0f;
-        cg.DOFade(1f, 0.5f);
+        cg.DOFade(1f, 0.5f).SetUpdate(true);
         
         // Animación del título
         if (victoryTitleText != null)
         {
             victoryTitleText.transform.localScale = Vector3.zero;
-            victoryTitleText.transform.DOScale(1f, 0.6f).SetEase(Ease.OutElastic).SetDelay(0.2f);
+            victoryTitleText.transform.DOScale(1f, 0.6f).SetEase(Ease.OutElastic).SetDelay(0.2f).SetUpdate(true);
         }
         
         // Animación del subtítulo
         if (victorySubtitleText != null)
         {
             victorySubtitleText.transform.localScale = Vector3.zero;
-            victorySubtitleText.transform.DOScale(1f, 0.5f).SetEase(Ease.OutBack).SetDelay(0.5f);
+            victorySubtitleText.transform.DOScale(1f, 0.5f).SetEase(Ease.OutBack).SetDelay(0.5f).SetUpdate(true);
         }
     }
 
@@ -219,9 +252,11 @@ public class UiManager : MonoBehaviour
     {
         if (defeatPanel == null) return;
         
-        // Mostrar y desbloquear cursor
+        // Pausar el juego
+        Time.timeScale = 0f;
+        
+        // Mostrar cursor
         Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
         
         // Ocultar alerta de muerte si está activa
         if (deathAlertPanel != null)
@@ -241,20 +276,20 @@ public class UiManager : MonoBehaviour
         if (cg == null) cg = defeatPanel.AddComponent<CanvasGroup>();
         
         cg.alpha = 0f;
-        cg.DOFade(1f, 0.5f);
+        cg.DOFade(1f, 0.5f).SetUpdate(true);
         
         // Animación del título
         if (defeatTitleText != null)
         {
             defeatTitleText.transform.localScale = Vector3.zero;
-            defeatTitleText.transform.DOScale(1f, 0.6f).SetEase(Ease.OutElastic).SetDelay(0.2f);
+            defeatTitleText.transform.DOScale(1f, 0.6f).SetEase(Ease.OutElastic).SetDelay(0.2f).SetUpdate(true);
         }
         
         // Animación del subtítulo
         if (defeatSubtitleText != null)
         {
             defeatSubtitleText.transform.localScale = Vector3.zero;
-            defeatSubtitleText.transform.DOScale(1f, 0.5f).SetEase(Ease.OutBack).SetDelay(0.5f);
+            defeatSubtitleText.transform.DOScale(1f, 0.5f).SetEase(Ease.OutBack).SetDelay(0.5f).SetUpdate(true);
         }
     }
 
@@ -289,8 +324,8 @@ public class UiManager : MonoBehaviour
     
         // Ocultar cursor nuevamente para el gameplay
         Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
     
+        // Despausar el juego
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
@@ -309,7 +344,6 @@ public class UiManager : MonoBehaviour
         
         // Asegurar que el cursor esté visible en el menú
         Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
         
         Time.timeScale = 1f;
         SceneManager.LoadScene(menuSceneName);
@@ -456,26 +490,39 @@ public class UiManager : MonoBehaviour
     
     void UpdateLifeBar(float life)
     {
-        lifeBar.DOKill();
+        if (lifeBar == null)
+        {
+            Debug.LogError("UpdateLifeBar: lifeBar es NULL!");
+            return;
+        }
+    
+        // Debug para saber QUÉ objeto es
+        Debug.Log($"LifeBar GameObject: {lifeBar.gameObject.name}");
+        Debug.Log($"LifeBar ImageType: {lifeBar.type}");
+        Debug.Log($"UpdateLifeBar llamado con life: {life}, fillAmount actual: {lifeBar.fillAmount}");
+
+        DOTween.Kill(lifeBar.fillAmount);
         lifeBar.DOFillAmount(life, 0.25f).SetEase(Ease.Linear);
+        
+        Debug.Log($"DOFillAmount ejecutado, nuevo fillAmount: {lifeBar.fillAmount}");
         
         if (life <= 0.25f && life > 0f)
         {
-            DOTween.Kill(lifeBar, false);
+            //lifeBar.DOKill(false); 
             lifeBar.DOColor(Color.red, 0.5f).SetLoops(-1, LoopType.Yoyo).SetId(lifeBar);
         }
         else if (life <= 0f)
         {
-            DOTween.Kill(lifeBar, false);
+            //lifeBar.DOKill(false); 
             lifeBar.color = Color.red;
         }
         else
         {
-            DOTween.Kill(lifeBar, false);
+            //lifeBar.DOKill(false); 
             lifeBar.color = Color.white;
         }
     }
-
+    
     private void OnDestroy()
     {
         if (currentAlertTween != null)
@@ -485,7 +532,6 @@ public class UiManager : MonoBehaviour
         
         // Asegurar que el cursor esté visible al destruir (por si acaso)
         Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
     }
 }
 

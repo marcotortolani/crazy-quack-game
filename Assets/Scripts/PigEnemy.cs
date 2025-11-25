@@ -218,6 +218,13 @@ public class PigEnemy : MonoBehaviour
 
     private void Die()
     {
+        // Desactivar collider inmediatamente
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = false;
+    
+        // Desactivar script
+        enabled = false;
+        
         if (GameManager.Instance)
         {
             GameManager.Instance.RegisterEnemyKill("Plant");
@@ -232,6 +239,10 @@ public class PigEnemy : MonoBehaviour
         {
             AudioManager.Instance.PlaySound("EnemyDeath");
         }
+        
+        // Ocultar sprite
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null) sr.enabled = false;
         
         Destroy(gameObject);
     }

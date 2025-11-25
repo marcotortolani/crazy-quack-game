@@ -127,6 +127,13 @@ public class MushroomEnemy : MonoBehaviour
         if (hasExploded) return;
         
         hasExploded = true;
+        
+        // Desactivar collider inmediatamente
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = false;
+    
+        // Desactivar script
+        enabled = false;
 
         // Activar animación de hit/explosion
         if (animator != null)
@@ -168,6 +175,10 @@ public class MushroomEnemy : MonoBehaviour
         {
             GameManager.Instance.RegisterEnemyKill("Mushroom"); // ← AGREGAR
         }
+        
+        // Ocultar sprite
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null) sr.enabled = false;
 
         // Destruir después de un pequeño delay para que se vea la animación
         Destroy(gameObject, 0.3f);

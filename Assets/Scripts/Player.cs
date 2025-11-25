@@ -117,15 +117,15 @@ public class Player : MonoBehaviour
         life -= amount;
         if (life < 0) life = 0;
         
-        Debug.Log("Recibiste daño, vida actual: " + life);
-        
         if (life <= 0)
         {
             if (GameManager.Instance != null)
             {
                 GameManager.Instance.playerIsDead = true;
             }
-            Destroy(gameObject);
+            // Destroy(gameObject);
+            // No destruir el Player
+            enabled = false; // desactivar el script del player
             AudioManager.Instance.PlaySound("PlayerDeath");
         }
     }
