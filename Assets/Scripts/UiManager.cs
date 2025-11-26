@@ -323,6 +323,7 @@ public class UiManager : MonoBehaviour
 
     public void RestartLevel()
     {
+        Debug.Log("restart level");
         // Resetear el GameManager ANTES de recargar la escena
         if (GameManager.Instance != null)
         {
@@ -343,6 +344,7 @@ public class UiManager : MonoBehaviour
 
     public void LoadMenu()
     {
+        Debug.Log("LoadMenu");
         // Resetear el GameManager ANTES de recargar la escena
         if (GameManager.Instance != null)
         {

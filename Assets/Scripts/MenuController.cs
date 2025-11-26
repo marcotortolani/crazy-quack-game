@@ -23,7 +23,11 @@ public class MenuController : MonoBehaviour
     {
         levelsCanvasGroup.transform.DOMoveX(-400f, 0.25f ).SetEase(Ease.InOutCubic).OnComplete(() =>
         {
+            levelsCanvasGroup.DOFade(0f, 0.25f);
+            levelsCanvasGroup.interactable = false;
             menuCanvasGroup.transform.DOMoveX(100f, 0.25f);
+            menuCanvasGroup.DOFade(1f, 0.25f);
+            Debug.Log("show menu buttons");
         });
     }
 
@@ -31,7 +35,11 @@ public class MenuController : MonoBehaviour
     {
         menuCanvasGroup.transform.DOMoveX(-400f, 0.25f ).SetEase(Ease.InOutCubic).OnComplete(() =>
         {
+            menuCanvasGroup.DOFade(0f, 0.25f);
             levelsCanvasGroup.transform.DOMoveX(100f, 0.25f);
+            levelsCanvasGroup.interactable = true;
+            levelsCanvasGroup.DOFade(1f, 0.25f);
+            Debug.Log("show level buttons");
         });
     }
     
