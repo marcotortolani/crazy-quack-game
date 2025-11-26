@@ -44,6 +44,15 @@ public class UiManager : MonoBehaviour
     public Button restartButton;
     public Button defeatMenuButton;
     
+    [Header("Pause Panel")]
+    public GameObject pausePanel;
+    public TextMeshProUGUI pauseTitleText;
+    public TextMeshProUGUI pauseSubtitleText;
+    public Button resumeButton;
+    public Button pauseMenuButton;
+
+    private bool isPaused = false;
+    
     [Header("Victory Messages")]
     public string[] victorySubtitles = new string[]
     {
@@ -86,14 +95,6 @@ public class UiManager : MonoBehaviour
         
         // Buscar al player al inicio
         player = FindObjectOfType<Player>();
-    
-        Debug.Log($"UiManager Start - Player encontrado: {player != null}");
-        Debug.Log($"UiManager Start - LifeBar asignado: {lifeBar != null}");
-    
-        if (player != null)
-        {
-            Debug.Log($"Player life: {player.life}/{player.maxLife}");
-        }
         
         // Ocultar cursor al inicio del juego
         Cursor.visible = false;
@@ -111,9 +112,10 @@ public class UiManager : MonoBehaviour
             deathAlertPanel.SetActive(false);
         }
         
-        // Ocultar pantallas de victoria y derrota
+        // Ocultar pantallas de victoria, derrota y pausa
         if (victoryPanel != null) victoryPanel.SetActive(false);
         if (defeatPanel != null) defeatPanel.SetActive(false);
+        if (pausePanel != null) pausePanel.SetActive(false); 
         
         // Configurar botones
         if (nextLevelButton != null)
@@ -124,10 +126,19 @@ public class UiManager : MonoBehaviour
             restartButton.onClick.AddListener(RestartLevel);
         if (defeatMenuButton != null)
             defeatMenuButton.onClick.AddListener(LoadMenu);
+        if (resumeButton != null)
+            resumeButton.onClick.AddListener(ResumeGame);
+        if (pauseMenuButton != null)
+            pauseMenuButton.onClick.AddListener(LoadMenuFromPause);
     }
 
     void LateUpdate()
     {
+        // Detectar input de pausa (solo si el juego no ha terminado)
+        if (!hasShownEndScreen && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P)))
+        {
+            TogglePause();
+        }
         
         // Si no tenemos referencia al player, intentar encontrarlo
         if (player == null)
@@ -164,7 +175,7 @@ public class UiManager : MonoBehaviour
         }
         
         // Actualizar HUD normal solo si el juego está activo
-        if (!hasShownEndScreen)
+        if (!hasShownEndScreen && !isPaused)
         {
             float lifePercent;
             
@@ -310,7 +321,7 @@ public class UiManager : MonoBehaviour
         SceneManager.LoadScene(nextLevelSceneName);
     }
 
-    void RestartLevel()
+    public void RestartLevel()
     {
         // Resetear el GameManager ANTES de recargar la escena
         if (GameManager.Instance != null)
@@ -330,7 +341,7 @@ public class UiManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    void LoadMenu()
+    public void LoadMenu()
     {
         // Resetear el GameManager ANTES de recargar la escena
         if (GameManager.Instance != null)
@@ -349,7 +360,102 @@ public class UiManager : MonoBehaviour
         SceneManager.LoadScene(menuSceneName);
     }
 
-    // Métodos existentes...
+    void TogglePause()
+    {
+        if (isPaused)
+        {
+            ResumeGame();
+        }
+        else
+        {
+            PauseGame();
+        }
+    }
+
+    void PauseGame()
+    {
+        if (pausePanel == null) return;
+        
+        isPaused = true;
+        
+        // Pausar el juego
+        Time.timeScale = 0f;
+        
+        // Mostrar cursor
+        Cursor.visible = true;
+        
+        // Mostrar panel
+        pausePanel.SetActive(true);
+        
+        // Animación de entrada (con SetUpdate(true) para que funcione con timeScale = 0)
+        CanvasGroup cg = pausePanel.GetComponent<CanvasGroup>();
+        if (cg == null) cg = pausePanel.AddComponent<CanvasGroup>();
+        
+        cg.alpha = 0f;
+        cg.DOFade(1f, 0.3f).SetUpdate(true);
+        
+        // Animación del título (opcional)
+        if (pauseTitleText != null)
+        {
+            pauseTitleText.transform.localScale = Vector3.zero;
+            pauseTitleText.transform.DOScale(1f, 0.4f).SetEase(Ease.OutBack).SetUpdate(true);
+        }
+        
+        // Animación del subtítulo (opcional)
+        if (pauseSubtitleText != null)
+        {
+            pauseSubtitleText.transform.localScale = Vector3.zero;
+            pauseSubtitleText.transform.DOScale(1f, 0.3f).SetEase(Ease.OutBack).SetDelay(0.2f).SetUpdate(true);
+        }
+    }
+
+    void ResumeGame()
+    {
+        if (pausePanel == null) return;
+        
+        isPaused = false;
+        
+        // Ocultar cursor
+        Cursor.visible = false;
+        
+        // Ocultar panel con animación
+        CanvasGroup cg = pausePanel.GetComponent<CanvasGroup>();
+        if (cg != null)
+        {
+            cg.DOFade(0f, 0.2f).SetUpdate(true).OnComplete(() => 
+            {
+                pausePanel.SetActive(false);
+                // Despausar el juego después de la animación
+                Time.timeScale = 1f;
+            });
+        }
+        else
+        {
+            pausePanel.SetActive(false);
+            Time.timeScale = 1f;
+        }
+    }
+
+    void LoadMenuFromPause()
+    {
+        // Resetear el GameManager
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.ResetGameState();
+        }
+        
+        // Ocultar panel de pausa
+        if (pausePanel != null) pausePanel.SetActive(false);
+        
+        // Mostrar cursor
+        Cursor.visible = true;
+        
+        // Despausar antes de cambiar de escena
+        Time.timeScale = 1f;
+        
+        SceneManager.LoadScene(menuSceneName);
+    }
+    
     void UpdateDeathAlert(float lifePercent)
     {
         if (deathAlertPanel == null || deathAlertCanvasGroup == null) return;

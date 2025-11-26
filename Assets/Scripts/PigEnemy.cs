@@ -41,8 +41,9 @@ public class PigEnemy : MonoBehaviour
         
         FindPlayer();
         
-        // Empezar en idle
-        StartIdleState();
+        // Empezar en walk
+        //StartIdleState();
+        StartWalkState();
     }
 
     private void Update()
