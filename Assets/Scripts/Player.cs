@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     public Transform bulletSpawnOrigin;
     public int bulletsPerSecond = 4;
     
+    public bool canShoot = true;
+    
     // variables privadas para el cálculo de la frecuencia de spawneo
     private float _nextFireTime = 0f;
     private float _bulletFireRate;
@@ -21,6 +23,10 @@ public class Player : MonoBehaviour
     private void Start()
     {
         life = maxLife;
+        if (!canShoot)
+        {
+            canShoot = true;
+        }
     }
 
     private void Update()
@@ -29,7 +35,7 @@ public class Player : MonoBehaviour
         UpdateFireRate();
 
         if(!GameManager.Instance) return;
-        if (!GameManager.Instance.playerIsDead && !GameManager.Instance.playerIsWin)
+        if (canShoot && !GameManager.Instance.playerIsDead && !GameManager.Instance.playerIsWin)
         {
             if (Time.time >= _nextFireTime)
             {
