@@ -135,7 +135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   healthAmount: 2
-  speedBoost: 1.5
+  speedBoost: 1.1
   speedDuration: 5
   fireRateIncrease: 2
   floatSpeed: 0.5

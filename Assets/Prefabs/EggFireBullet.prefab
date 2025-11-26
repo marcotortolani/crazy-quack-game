@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &8601085743705672610
+--- !u!1001 &5051624591858685125
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 3894315628169213498, guid: 40b91ab507c784ed7893066c27394e87, type: 3}
     - target: {fileID: 1392694756266670194, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
       propertyPath: m_Name
-      value: EggBullet
+      value: EggFireBullet
       objectReference: {fileID: 0}
     - target: {fileID: 1392694756266670194, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
       propertyPath: m_Layer
@@ -50,11 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1906527063019687085, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.440258
+      value: -9.773
       objectReference: {fileID: 0}
     - target: {fileID: 1906527063019687085, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.9496689
+      value: -0.654
       objectReference: {fileID: 0}
     - target: {fileID: 1906527063019687085, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -107,7 +107,7 @@ PrefabInstance:
     - target: {fileID: 5669540717061603508, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -5618438163426939482, guid: bd40dd386f7ce4971966694da3839834, type: 3}
+      objectReference: {fileID: 3311892455330867166, guid: 554d4c39029eb479f806ccd1f96d14de, type: 3}
     - target: {fileID: 5669540717061603508, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
       propertyPath: m_Color.b
       value: 0.8018868
@@ -128,23 +128,23 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1392694756266670194, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
       insertIndex: 2
-      addedObject: {fileID: 5685728482864426298}
+      addedObject: {fileID: 4279823566175585341}
     - targetCorrespondingSourceObject: {fileID: 1392694756266670194, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
       insertIndex: 3
-      addedObject: {fileID: 2321315690441468715}
+      addedObject: {fileID: 350362750588565930}
   m_SourcePrefab: {fileID: 100100000, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
---- !u!1 &7209956692116779984 stripped
+--- !u!1 &6145479784266706103 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1392694756266670194, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
-  m_PrefabInstance: {fileID: 8601085743705672610}
+  m_PrefabInstance: {fileID: 5051624591858685125}
   m_PrefabAsset: {fileID: 0}
---- !u!58 &5685728482864426298
+--- !u!58 &4279823566175585341
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7209956692116779984}
+  m_GameObject: {fileID: 6145479784266706103}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -173,20 +173,20 @@ CircleCollider2D:
   m_Offset: {x: -1.1405956e-15, y: 0.16500005}
   serializedVersion: 2
   m_Radius: 0.2
---- !u!114 &2321315690441468715
+--- !u!114 &350362750588565930
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7209956692116779984}
+  m_GameObject: {fileID: 6145479784266706103}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a7cb7cfc4e8840388f4623dd466f27b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
-  damage: 20
-  maxBounces: 3
-  eggCrackedPrefab: {fileID: 3894315628169213498, guid: 40b91ab507c784ed7893066c27394e87, type: 3}
+  speed: 10
+  damage: 30
+  maxBounces: 1
+  eggCrackedPrefab: {fileID: 7094396682119785525, guid: 2f7581529eaa441b0bd83981e82427c6, type: 3}
   crackedLifetime: 4

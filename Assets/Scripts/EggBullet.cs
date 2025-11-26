@@ -19,11 +19,19 @@ public class EggBullet : MonoBehaviour
         if (rb != null)
         {
             rb.velocity = transform.up * speed;
-            Debug.Log($"Bullet spawned with velocity: {rb.velocity}");
         }
-        else
+        
+        // Ignorar colisión con el player que disparó
+        Player player = FindObjectOfType<Player>();
+        if (player != null)
         {
-            Debug.LogError("Bullet: No Rigidbody2D found!");
+            Collider2D playerCollider = player.GetComponent<Collider2D>();
+            Collider2D bulletCollider = GetComponent<Collider2D>();
+        
+            if (playerCollider != null && bulletCollider != null)
+            {
+                Physics2D.IgnoreCollision(bulletCollider, playerCollider);
+            }
         }
     }
     

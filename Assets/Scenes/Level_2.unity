@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 69036940}
   - component: {fileID: 69036941}
   - component: {fileID: 69036942}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -375,7 +375,7 @@ MonoBehaviour:
   gun: {fileID: 527902392}
   bullet: {fileID: 7209956692116779984, guid: c6fc6061bdfe543b69bab1d9d7722c7d, type: 3}
   bulletSpawnOrigin: {fileID: 2021846231}
-  bulletsPerSecond: 2
+  bulletsPerSecond: 4
   maxBulletsPerSecond: 10
   canShoot: 1
 --- !u!212 &69036938
@@ -519,7 +519,7 @@ Animator:
   m_GameObject: {fileID: 69036936}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0bd8b821f15da4709846fbe84bddaf2b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 1914fb0ca630844efbc1efeec8ad521c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -35,6 +35,8 @@ public class Player : MonoBehaviour
         {
             canShoot = true;
         }
+        // Ignorar colisiones entre el player y sus propias balas
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("PlayerBullet"));
     }
 
     private void Update()

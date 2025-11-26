@@ -134,11 +134,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48dd495dadffe4795817b0e5b3e5e7ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
-  damage: 10
+  bulletSpeed: 20
+  bulletDamage: 20
   maxBounces: 3
-  eggCrackedPrefab: {fileID: 0}
-  crackedLifetime: 4
 --- !u!50 &-7781702063819512406
 Rigidbody2D:
   serializedVersion: 4
