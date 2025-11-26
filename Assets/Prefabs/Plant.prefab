@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81c120994b48b4ffeb9141b7fee9f151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRange: 6
+  detectionRange: 10
   shootingCooldown: 1
   bulletPrefab: {fileID: 4241716981278788309, guid: c16296eed3e6146bfb830ec9207f4bda, type: 3}
   bulletSpawnPoint: {fileID: 4811834117395387509}

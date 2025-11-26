@@ -96,6 +96,12 @@ public class Enemy : MonoBehaviour
         // Ocultar sprite inmediatamente
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         if (sr != null) sr.enabled = false;
+        
+        // Intentar dropear power-up
+        if (PowerUpDropper.Instance != null)
+        {
+            PowerUpDropper.Instance.TryDropPowerUp(transform.position);
+        }
     
         // Destruir con delay para evitar errores de referencia
         Destroy(gameObject, 0.1f);

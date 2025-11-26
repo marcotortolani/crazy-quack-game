@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     {
         UpdateTime();
 
-        // Verificar condiciones de victoria
+        // Verificar condiciones de victoria (OR entre las dos condiciones)
         if (CheckVictoryConditions() && !playerIsWin && !playerIsDead)
         {
             PlayerWin();
@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
     public void RegisterEnemyKill(string enemyType)
     {
         if (killObjectives == null) return; 
+        
         foreach (var objective in killObjectives)
         {
             if (objective.enemyName == enemyType)
@@ -83,27 +84,38 @@ public class GameManager : MonoBehaviour
             return true;
         }
 
-        // CONDICIÓN 2: Eliminar todos los enemigos requeridos
-        bool allEnemiesKilled = true;
-        foreach (var objective in killObjectives)
+        // CONDICIÓN 2: Completar TODOS los objetivos individuales de kills
+        // (no el total, sino cada uno por separado)
+        if (AreAllIndividualObjectivesComplete())
         {
-            if (objective.currentKills < objective.killsRequired)
-            {
-                allEnemiesKilled = false;
-                break;
-            }
-        }
-    
-        if (allEnemiesKilled)
-        {
-            Debug.Log("Victoria por completar objetivos de kills!");
+            Debug.Log("Victoria por completar TODOS los objetivos individuales!");
             return true;
         }
     
         return false;
     }
 
-    // Obtener progreso total (para mostrar en UI)
+    // Verificar si TODOS los objetivos individuales están completos
+    // Ejemplo: 15/15 gallinas AND 10/10 conejos AND 5/5 hongos
+    public bool AreAllIndividualObjectivesComplete()
+    {
+        if (killObjectives == null || killObjectives.Length == 0)
+            return false;
+        
+        foreach (var objective in killObjectives)
+        {
+            if (objective.currentKills < objective.killsRequired)
+            {
+                // Si falta completar aunque sea UN objetivo, retornar false
+                return false;
+            }
+        }
+        
+        // Todos los objetivos individuales están completos
+        return true;
+    }
+
+    // Obtener progreso total (SOLO para mostrar en UI, NO para condición de victoria)
     public int GetTotalKillsRequired()
     {
         int total = 0;
@@ -130,6 +142,9 @@ public class GameManager : MonoBehaviour
         {
             playerIsWin = true;
             _hasShownWinMessage = true;
+            
+            Debug.Log("¡VICTORIA!");
+            PrintStatus();
         }
     }
     
@@ -148,7 +163,28 @@ public class GameManager : MonoBehaviour
         {
             objective.currentKills = 0;
         }
+        
+        // Resetear power-ups dropeados
+        if (PowerUpDropper.Instance != null)
+        {
+            PowerUpDropper.Instance.ResetDropCounts();
+        }
     
         Debug.Log("GameManager reseteado");
+    }
+    
+    private void PrintStatus()
+    {
+        Debug.Log(">> Estado del nivel:");
+        Debug.Log($">> Tiempo sobrevivido: {secondsAlive}/{secondsToSurvive} segundos");
+        Debug.Log(">> Objetivos individuales:");
+        
+        foreach (var objective in killObjectives)
+        {
+            string status = objective.currentKills >= objective.killsRequired ? "✓ COMPLETO" : "✗ Incompleto";
+            Debug.Log($"   - {objective.enemyName}: {objective.currentKills}/{objective.killsRequired} {status}");
+        }
+        
+        Debug.Log($">> Total de kills: {GetTotalCurrentKills()}/{GetTotalKillsRequired()} (informativo)");
     }
 }

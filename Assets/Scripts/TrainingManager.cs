@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -30,13 +29,19 @@ public class TrainingManager : MonoBehaviour
     private enum TrainingPhase
     {
         Movement,
+        WaitingToShowAim,
         Aiming,
+        WaitingToShowCompletion,
         Completed
     }
     
     private TrainingPhase currentPhase = TrainingPhase.Movement;
     private int enemiesKilled = 0;
     private bool hasMovedWithWASD = false;
+    
+    // Timers para las transiciones
+    private float _transitionTimer = 0f;
+    private float _transitionDelay = 0.5f;
 
     void Start()
     {
@@ -45,7 +50,7 @@ public class TrainingManager : MonoBehaviour
         // Desactivar disparo del player al inicio
         if (player != null)
         {
-            player.canShoot = false; // Desactivar completamente el script del player
+            player.canShoot = false;
         }
         
         // Configurar paneles
@@ -84,9 +89,17 @@ public class TrainingManager : MonoBehaviour
             case TrainingPhase.Movement:
                 CheckMovementInput();
                 break;
+            
+            case TrainingPhase.WaitingToShowAim:
+                UpdateTransitionToAiming();
+                break;
                 
             case TrainingPhase.Aiming:
                 CheckEnemiesKilled();
+                break;
+            
+            case TrainingPhase.WaitingToShowCompletion:
+                UpdateTransitionToCompletion();
                 break;
                 
             case TrainingPhase.Completed:
@@ -104,28 +117,38 @@ public class TrainingManager : MonoBehaviour
             if (!hasMovedWithWASD)
             {
                 hasMovedWithWASD = true;
-                StartCoroutine(TransitionToAimingPhase());
+                StartTransitionToAimingPhase();
             }
         }
     }
 
-    IEnumerator TransitionToAimingPhase()
+    void StartTransitionToAimingPhase()
     {
         // Ocultar panel de movimiento
         HideMovementPanel();
         
-        yield return new WaitForSeconds(0.5f);
+        // Iniciar timer para la transición
+        _transitionTimer = _transitionDelay;
+        currentPhase = TrainingPhase.WaitingToShowAim;
+    }
+
+    void UpdateTransitionToAiming()
+    {
+        _transitionTimer -= Time.deltaTime;
         
-        // Cambiar a fase de apuntado
-        currentPhase = TrainingPhase.Aiming;
-        
-        // Mostrar panel de apuntado
-        ShowAimPanel();
-        
-        // Activar disparo del player
-        if (player != null)
+        if (_transitionTimer <= 0f)
         {
-            player.canShoot = true; // ← Activar disparo aquí
+            // Cambiar a fase de apuntado
+            currentPhase = TrainingPhase.Aiming;
+            
+            // Activar disparo del player
+            if (player != null)
+            {
+                player.canShoot = true;
+            }
+            
+            // Mostrar panel de apuntado
+            ShowAimPanel();
         }
     }
 
@@ -135,14 +158,33 @@ public class TrainingManager : MonoBehaviour
         Enemy[] enemies = FindObjectsOfType<Enemy>();
         int aliveEnemies = enemies.Length;
         
-        // Si quedan menos enemigos que al inicio, se mataron algunos
-        if (aliveEnemies <= (enemiesToKill - 1) && currentPhase == TrainingPhase.Aiming)
+        // Verificar si se mataron todos
+        if (aliveEnemies == 0)
         {
-            // Verificar si se mataron todos
-            if (aliveEnemies == 0)
-            {
-                StartCoroutine(ShowCompletionPanel());
-            }
+            StartTransitionToCompletion();
+        }
+    }
+
+    void StartTransitionToCompletion()
+    {
+        // Cambiar fase para evitar llamadas múltiples
+        currentPhase = TrainingPhase.WaitingToShowCompletion;
+        
+        // Ocultar panel de apuntado
+        HideAimPanel();
+        
+        // Iniciar timer
+        _transitionTimer = _transitionDelay;
+    }
+
+    void UpdateTransitionToCompletion()
+    {
+        _transitionTimer -= Time.deltaTime;
+        
+        if (_transitionTimer <= 0f)
+        {
+            currentPhase = TrainingPhase.Completed;
+            ShowCompletionPanelNow();
         }
     }
 
@@ -232,16 +274,9 @@ public class TrainingManager : MonoBehaviour
         }
     }
 
-    IEnumerator ShowCompletionPanel()
+    void ShowCompletionPanelNow()
     {
-        currentPhase = TrainingPhase.Completed;
-        
-        // Ocultar panel de apuntado
-        HideAimPanel();
-        
-        yield return new WaitForSeconds(0.5f);
-        
-        if (completionPanel == null) yield break;
+        if (completionPanel == null) return;
         
         completionPanel.SetActive(true);
         

@@ -590,7 +590,7 @@ public class UiManager : MonoBehaviour
         {
             int current = GameManager.Instance.GetTotalCurrentKills();
             int required = GameManager.Instance.GetTotalKillsRequired();
-            totalKillsText.text = $"Total: {current}/{required}";
+            totalKillsText.text = $"Total: {current}";
         }
     }
     

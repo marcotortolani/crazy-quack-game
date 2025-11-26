@@ -173,12 +173,18 @@ public class MushroomEnemy : MonoBehaviour
         // Contar como enemigo eliminado
         if (GameManager.Instance)
         {
-            GameManager.Instance.RegisterEnemyKill("Mushroom"); // ← AGREGAR
+            GameManager.Instance.RegisterEnemyKill("Mushroom");
         }
         
         // Ocultar sprite
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         if (sr != null) sr.enabled = false;
+        
+        // Intentar dropear power-up
+        if (PowerUpDropper.Instance != null)
+        {
+            PowerUpDropper.Instance.TryDropPowerUp(transform.position);
+        }
 
         // Destruir después de un pequeño delay para que se vea la animación
         Destroy(gameObject, 0.3f);

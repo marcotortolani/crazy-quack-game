@@ -228,7 +228,7 @@ public class PigEnemy : MonoBehaviour
         
         if (GameManager.Instance)
         {
-            GameManager.Instance.RegisterEnemyKill("Plant");
+            GameManager.Instance.RegisterEnemyKill("Pig");
         }
         
         if (deathEffect != null)
@@ -245,7 +245,13 @@ public class PigEnemy : MonoBehaviour
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         if (sr != null) sr.enabled = false;
         
-        Destroy(gameObject);
+        // Intentar dropear power-up
+        if (PowerUpDropper.Instance != null)
+        {
+            PowerUpDropper.Instance.TryDropPowerUp(transform.position);
+        }
+        
+        Destroy(gameObject, 0.1f);
     }
 
     // Visualización en el editor

@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public GameObject bullet;
     public Transform bulletSpawnOrigin;
     public int bulletsPerSecond = 4;
+    public int maxBulletsPerSecond = 20; // Límite máximo para evitar excesivas instancias de balas
     
     public bool canShoot = true;
     
@@ -19,10 +20,17 @@ public class Player : MonoBehaviour
     private float _nextFireTime = 0f;
     private float _bulletFireRate;
     private int _lastUpgradeSecond = 0;
+    
+    // Variables para el speed boost (sin coroutine)
+    private float _speedBoostTimer = 0f;
+    private float _originalSpeed;
+    private bool _isSpeedBoosted = false;
 
     private void Start()
     {
         life = maxLife;
+        _originalSpeed = speed;
+        
         if (!canShoot)
         {
             canShoot = true;
@@ -31,6 +39,9 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        // Manejar speed boost timer
+        UpdateSpeedBoost();
+        
         Movement();
         UpdateFireRate();
 
@@ -45,6 +56,21 @@ public class Player : MonoBehaviour
         }
         IncreaseBulletsRate();
     }
+    
+    private void UpdateSpeedBoost()
+    {
+        if (_isSpeedBoosted)
+        {
+            _speedBoostTimer -= Time.deltaTime;
+            
+            if (_speedBoostTimer <= 0f)
+            {
+                speed = _originalSpeed;
+                _isSpeedBoosted = false;
+                Debug.Log($"Velocidad restaurada: {speed}");
+            }
+        }
+    }
 
     private void UpdateFireRate()
     { 
@@ -54,28 +80,22 @@ public class Player : MonoBehaviour
         }
         else
         {
-            _bulletFireRate = 0.25f; // valor por defecto si es 0 o negativo - 4 bullets por segundo
+            _bulletFireRate = 0.25f;
         }
-        
     }
 
     private void ShootDirection()
     {
-        // Dirección del mouse para apuntar
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 mouseDirection = mousePosition - transform.position;
         mouseDirection.Normalize();
 
-        // Angulo de direccion para el objeto Gun
         float angle = Mathf.Atan2(mouseDirection.y, mouseDirection.x) * Mathf.Rad2Deg;
         gun.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        // Spawn bullets
         Quaternion angleAdjustment = Quaternion.Euler(0, 0, -90);
         Instantiate(bullet, bulletSpawnOrigin.transform.position, gun.transform.rotation * angleAdjustment);
-        // audioSource.pitch = Random.Range(0.9f, 1.1f);
-        // audioSource.volume = 0.7f;
-        // audioSource.PlayOneShot(bulletSound);
+        
         AudioManager.Instance.PlaySound("PlayerShoot");
     }
 
@@ -97,9 +117,7 @@ public class Player : MonoBehaviour
             myAnimator.SetBool("isWalking", false);
         }
         
-        // con ClampMagnitude podemos normalizar el movement con un maximo de 1, sin perder el smooth
         movement = Vector3.ClampMagnitude(movement, 1);
-
         transform.position += movement * (speed * Time.deltaTime);
     }
 
@@ -107,14 +125,57 @@ public class Player : MonoBehaviour
     {
         if (GameManager.Instance.secondsAlive >= _lastUpgradeSecond + 10)
         {
-            bulletsPerSecond += 1;
-            _lastUpgradeSecond = GameManager.Instance.secondsAlive;
+            // Solo aumentar si no ha llegado al máximo
+            if (bulletsPerSecond < maxBulletsPerSecond)
+            {
+                bulletsPerSecond += 1;
+                _lastUpgradeSecond = GameManager.Instance.secondsAlive;
+                Debug.Log($"Fire rate aumentado: {bulletsPerSecond}/{maxBulletsPerSecond} balas/segundo");
+            }
+            else
+            {
+                Debug.Log($"Fire rate al máximo: {maxBulletsPerSecond} balas/segundo");
+                _lastUpgradeSecond = GameManager.Instance.secondsAlive; // Actualizar para evitar spam de logs
+            }
         }
     }
+    
     public void AddLife(int amount)
     {
         life += amount;
         if (life > maxLife) life = maxLife;
+        Debug.Log($"Vida restaurada: {life}/{maxLife}");
+    }
+
+    public void ApplySpeedBoost(float multiplier, float duration)
+    {
+        if (!_isSpeedBoosted)
+        {
+            _originalSpeed = speed;
+        }
+        
+        speed = _originalSpeed * multiplier;
+        _speedBoostTimer = duration;
+        _isSpeedBoosted = true;
+        
+        Debug.Log($"Velocidad aumentada: {_originalSpeed} → {speed} por {duration}s");
+    }
+    
+    public void IncreaseFireRate(int amount)
+    {
+        // Aplicar el aumento pero con límite
+        bulletsPerSecond += amount;
+        
+        // Clampear al máximo
+        if (bulletsPerSecond > maxBulletsPerSecond)
+        {
+            bulletsPerSecond = maxBulletsPerSecond;
+            Debug.Log($"Fire rate al máximo: {maxBulletsPerSecond} balas/segundo");
+        }
+        else
+        {
+            Debug.Log($"Fire rate aumentado: {bulletsPerSecond}/{maxBulletsPerSecond} balas/segundo");
+        }
     }
 
     public void TakeDamage(int amount)
@@ -128,9 +189,7 @@ public class Player : MonoBehaviour
             {
                 GameManager.Instance.playerIsDead = true;
             }
-            // Destroy(gameObject);
-            // No destruir el Player
-            enabled = false; // desactivar el script del player
+            enabled = false;
             AudioManager.Instance.PlaySound("PlayerDeath");
         }
     }
