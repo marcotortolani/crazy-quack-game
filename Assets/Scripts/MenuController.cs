@@ -27,7 +27,6 @@ public class MenuController : MonoBehaviour
             levelsCanvasGroup.interactable = false;
             menuCanvasGroup.transform.DOMoveX(100f, 0.25f);
             menuCanvasGroup.DOFade(1f, 0.25f);
-            Debug.Log("show menu buttons");
         });
     }
 
@@ -39,7 +38,6 @@ public class MenuController : MonoBehaviour
             levelsCanvasGroup.transform.DOMoveX(100f, 0.25f);
             levelsCanvasGroup.interactable = true;
             levelsCanvasGroup.DOFade(1f, 0.25f);
-            Debug.Log("show level buttons");
         });
     }
     

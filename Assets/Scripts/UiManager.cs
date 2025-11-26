@@ -323,7 +323,6 @@ public class UiManager : MonoBehaviour
 
     public void RestartLevel()
     {
-        Debug.Log("restart level");
         // Resetear el GameManager ANTES de recargar la escena
         if (GameManager.Instance != null)
         {
@@ -344,7 +343,6 @@ public class UiManager : MonoBehaviour
 
     public void LoadMenu()
     {
-        Debug.Log("LoadMenu");
         // Resetear el GameManager ANTES de recargar la escena
         if (GameManager.Instance != null)
         {
@@ -600,19 +598,11 @@ public class UiManager : MonoBehaviour
     {
         if (lifeBar == null)
         {
-            Debug.LogError("UpdateLifeBar: lifeBar es NULL!");
             return;
         }
-    
-        // Debug para saber QUÉ objeto es
-        Debug.Log($"LifeBar GameObject: {lifeBar.gameObject.name}");
-        Debug.Log($"LifeBar ImageType: {lifeBar.type}");
-        Debug.Log($"UpdateLifeBar llamado con life: {life}, fillAmount actual: {lifeBar.fillAmount}");
 
         DOTween.Kill(lifeBar.fillAmount);
         lifeBar.DOFillAmount(life, 0.25f).SetEase(Ease.Linear);
-        
-        Debug.Log($"DOFillAmount ejecutado, nuevo fillAmount: {lifeBar.fillAmount}");
         
         if (life <= 0.25f && life > 0f)
         {

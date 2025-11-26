@@ -103,7 +103,6 @@ public class Player : MonoBehaviour
         {
             bulletsPerSecond += 1;
             _lastUpgradeSecond = GameManager.Instance.secondsAlive;
-            Debug.Log("Velocidad de disparo: " + bulletsPerSecond);
         }
     }
     public void AddLife(int amount)
