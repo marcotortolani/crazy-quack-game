@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MushroomEnemy : MonoBehaviour
+public class MushroomEnemy : MonoBehaviour, IsDamageable
 {
     [Header("Movement")]
     public float chaseSpeed = 5f;

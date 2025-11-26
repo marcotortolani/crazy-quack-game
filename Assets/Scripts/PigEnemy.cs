@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PigEnemy : MonoBehaviour
+public class PigEnemy : MonoBehaviour, IsDamageable
 {
     [Header("Patrol Settings")]
     public bool isHorizontalPatrol = true; // true = horizontal, false = vertical

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IsDamageable
 {
     [Header("Enemy Type")]
     public string enemyType = "Chicken"; // Configurable desde el Inspector

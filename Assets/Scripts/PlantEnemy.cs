@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlantEnemy : MonoBehaviour
+public class PlantEnemy : MonoBehaviour, IsDamageable
 {
     [Header("Detection & Shooting")]
     public float detectionRange = 6f;
