@@ -20,14 +20,12 @@ public class EggDropper : MonoBehaviour
     
     private void Awake()
     {
-        if (Instance == null)
+        if (Instance != null && Instance != this)
         {
-            Instance = this;
+            Destroy(Instance.gameObject);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+    
+        Instance = this;
     }
     
     // public void TryDropSpecialEgg(Vector3 position)
@@ -84,24 +82,12 @@ public class EggDropper : MonoBehaviour
                 spawnPosition.z = 0;
             
                 GameObject egg = Instantiate(eggDrop.eggPowerUpPrefab, spawnPosition, Quaternion.identity);
-            
-                // DEBUG: Verificar qué se instanció
-                EggPowerUp powerUp = egg.GetComponent<EggPowerUp>();
-                if (powerUp != null)
-                {
-                    Debug.Log($"Huevo instanciado - Tipo: {powerUp.eggType}, Shots: {powerUp.shotsAvailable}"); // ← NUEVO
-                }
-                else
-                {
-                    Debug.LogError("El prefab no tiene EggPowerUp script!"); // ← NUEVO
-                }
-            
+                
                 // Aplicar escala configurada
                 //egg.transform.localScale = eggDrop.spawnScale;
             
                 eggDrop.hasDropped = true;
-            
-                Debug.Log($"Huevo especial dropeado: {eggType}");
+                
                 break;
             }
         }

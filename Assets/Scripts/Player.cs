@@ -76,7 +76,6 @@ public class Player : MonoBehaviour
             {
                 speed = _originalSpeed;
                 _isSpeedBoosted = false;
-                Debug.Log($"Velocidad restaurada: {speed}");
             }
         }
     }
@@ -106,8 +105,6 @@ public class Player : MonoBehaviour
 
         GameObject bulletToShoot = GetCurrentBullet();
     
-        Debug.Log($"Bullet a disparar: {(bulletToShoot != null ? bulletToShoot.name : "NULL")}"); // ← NUEVO
-    
         if (bulletToShoot == null)
         {
             Debug.LogWarning("No bullet prefab assigned!");
@@ -117,18 +114,14 @@ public class Player : MonoBehaviour
         Quaternion angleAdjustment = Quaternion.Euler(0, 0, -90);
         GameObject instantiatedBullet = Instantiate(bulletToShoot, bulletSpawnOrigin.transform.position, gun.transform.rotation * angleAdjustment);
     
-        Debug.Log($"Bullet instanciado: {instantiatedBullet.name}"); // ← NUEVO
-    
         // Reducir contador DESPUÉS de disparar
         if (currentEggType != EggType.Normal)
         {
             specialEggShots--;
-            Debug.Log($"Disparo especial usado. Quedan: {specialEggShots}");
         
             if (specialEggShots <= 0)
             {
                 currentEggType = EggType.Normal;
-                Debug.Log("Huevo especial agotado, volviendo a huevo normal");
             }
         }
     
@@ -137,21 +130,19 @@ public class Player : MonoBehaviour
     
     private GameObject GetCurrentBullet()
     {
-        Debug.Log($"GetCurrentBullet llamado. Current type: {currentEggType}, Shots: {specialEggShots}");
-        
         switch (currentEggType)
         {
             case EggType.Fire:
-                Debug.Log($"Devolviendo Fire Egg. Prefab asignado: {fireEggBullet != null}");
+                
                 return fireEggBullet != null ? fireEggBullet : bullet;
             
             case EggType.Radioactive:
-                Debug.Log($"Devolviendo Radioactive Egg. Prefab asignado: {radioactiveEggBullet != null}");
+                
                 return radioactiveEggBullet != null ? radioactiveEggBullet : bullet;
             
             case EggType.Normal:
             default:
-                Debug.Log("Devolviendo huevo normal");
+                
                 return bullet;
         }
     }
@@ -162,7 +153,6 @@ public class Player : MonoBehaviour
         specialEggShots = shots;
         
         string eggName = newType == EggType.Fire ? "Fuego" : "Radiactivo";
-        Debug.Log($"Huevo especial recogido: {eggName} ({shots} disparos)");
     }
     
     // Método para obtener info del huevo actual
@@ -207,11 +197,9 @@ public class Player : MonoBehaviour
             {
                 bulletsPerSecond += 1;
                 _lastUpgradeSecond = GameManager.Instance.secondsAlive;
-                Debug.Log($"Fire rate aumentado: {bulletsPerSecond}/{maxBulletsPerSecond} balas/segundo");
             }
             else
             {
-                Debug.Log($"Fire rate al máximo: {maxBulletsPerSecond} balas/segundo");
                 _lastUpgradeSecond = GameManager.Instance.secondsAlive; // Actualizar para evitar spam de logs
             }
         }
@@ -221,7 +209,6 @@ public class Player : MonoBehaviour
     {
         life += amount;
         if (life > maxLife) life = maxLife;
-        Debug.Log($"Vida restaurada: {life}/{maxLife}");
     }
 
     public void ApplySpeedBoost(float multiplier, float duration)
@@ -234,8 +221,6 @@ public class Player : MonoBehaviour
         speed = _originalSpeed * multiplier;
         _speedBoostTimer = duration;
         _isSpeedBoosted = true;
-        
-        Debug.Log($"Velocidad aumentada: {_originalSpeed} → {speed} por {duration}s");
     }
     
     public void IncreaseFireRate(int amount)
@@ -247,11 +232,6 @@ public class Player : MonoBehaviour
         if (bulletsPerSecond > maxBulletsPerSecond)
         {
             bulletsPerSecond = maxBulletsPerSecond;
-            Debug.Log($"Fire rate al máximo: {maxBulletsPerSecond} balas/segundo");
-        }
-        else
-        {
-            Debug.Log($"Fire rate aumentado: {bulletsPerSecond}/{maxBulletsPerSecond} balas/segundo");
         }
     }
 

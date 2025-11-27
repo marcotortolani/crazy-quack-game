@@ -1,4 +1,7 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [System.Serializable]
 public class EggDropCondition
@@ -50,19 +53,27 @@ public class GameManager : MonoBehaviour
     
     private void Awake()
     {
-        if (Instance == null)
+        if (Instance != null && Instance != this)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            Destroy(Instance.gameObject);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+
+        Instance = this;
+        // if (Instance == null)
+        // {
+        //     Instance = this;
+        //     //DontDestroyOnLoad(gameObject);
+        // }
+        // else
+        // {
+        //     Destroy(gameObject);
+        // }
     }
     
     void Update()
     {
+        if (Instance != this) return;
+        
         UpdateTime();
 
         // Verificar condiciones de victoria (OR entre las dos condiciones)
@@ -87,14 +98,15 @@ public class GameManager : MonoBehaviour
     // Método para registrar muerte de un enemigo específico
     public void RegisterEnemyKill(string enemyType)
     {
-        if (killObjectives == null) return; 
+        // Verificación de seguridad
+        if (Instance != this) return;
+        if (killObjectives == null) return;
         
         foreach (var objective in killObjectives)
         {
             if (objective.enemyName == enemyType)
             {
                 objective.currentKills++;
-                Debug.Log($"{enemyType} eliminado. Progreso: {objective.currentKills}/{objective.killsRequired}");
                 break;
             }
         }
@@ -103,10 +115,13 @@ public class GameManager : MonoBehaviour
     // Verificar si se completó AL MENOS UNA condición de victoria
     private bool CheckVictoryConditions()
     {
+        // Verificación de seguridad
+        if (Instance != this) return false;
+        if (killObjectives == null) return false;
+        
         // CONDICIÓN 1: Sobrevivir el tiempo requerido
         if (secondsAlive >= secondsToSurvive)
         {
-            Debug.Log("Victoria por tiempo sobrevivido!");
             return true;
         }
 
@@ -114,7 +129,6 @@ public class GameManager : MonoBehaviour
         // (no el total, sino cada uno por separado)
         if (AreAllIndividualObjectivesComplete())
         {
-            Debug.Log("Victoria por completar TODOS los objetivos individuales!");
             return true;
         }
     
@@ -125,6 +139,10 @@ public class GameManager : MonoBehaviour
     // Ejemplo: 15/15 gallinas AND 10/10 conejos AND 5/5 hongos
     public bool AreAllIndividualObjectivesComplete()
     {
+        // Verificación de seguridad
+        if (Instance != this) return false;
+        if (killObjectives == null || killObjectives.Length == 0) return false;
+        
         if (killObjectives == null || killObjectives.Length == 0)
             return false;
         
@@ -168,77 +186,77 @@ public class GameManager : MonoBehaviour
         {
             playerIsWin = true;
             _hasShownWinMessage = true;
-            
-            Debug.Log("¡VICTORIA!");
             PrintStatus();
         }
     }
     
     private void CheckEggDropConditions()
-{
-    foreach (var condition in eggDropConditions)
     {
-        // Si ya se dropeó este huevo, saltar
-        if (condition.hasDropped) continue;
+        if (Instance != this) return;
+        if (eggDropConditions == null || eggDropConditions.Length == 0) return;
+        if (killObjectives == null || killObjectives.Length == 0) return;
         
-        // Verificar si se cumplen todos los requisitos
-        bool allRequirementsMet = true;
-        
-        foreach (var requirement in condition.requirements)
+        foreach (var condition in eggDropConditions)
         {
-            bool requirementMet = false;
+            // Si ya se dropeó este huevo, saltar
+            if (condition.hasDropped) continue;
             
-            foreach (var objective in killObjectives)
+            // Verificar si se cumplen todos los requisitos
+            bool allRequirementsMet = true;
+            
+            foreach (var requirement in condition.requirements)
             {
-                if (objective.enemyName == requirement.enemyName)
+                bool requirementMet = false;
+                
+                foreach (var objective in killObjectives)
                 {
-                    if (objective.currentKills >= requirement.killsRequired)
+                    if (objective.enemyName == requirement.enemyName)
                     {
-                        requirementMet = true;
+                        if (objective.currentKills >= requirement.killsRequired)
+                        {
+                            requirementMet = true;
+                        }
+                        break;
                     }
+                }
+                
+                if (!requirementMet)
+                {
+                    allRequirementsMet = false;
                     break;
                 }
             }
             
-            if (!requirementMet)
+            // Si se cumplen todos los requisitos, dropear INMEDIATAMENTE
+            if (allRequirementsMet)
             {
-                allRequirementsMet = false;
-                break;
-            }
-        }
-        
-        // Si se cumplen todos los requisitos, dropear INMEDIATAMENTE
-        if (allRequirementsMet)
-        {
-            condition.hasDropped = true;
-            
-            if (EggDropper.Instance != null)
-            {
-                // Buscar un enemigo vivo aleatorio para dropear el huevo
-                Enemy[] enemies = FindObjectsOfType<Enemy>();
+                condition.hasDropped = true;
                 
-                if (enemies.Length > 0)
+                if (EggDropper.Instance != null)
                 {
-                    // Elegir un enemigo aleatorio
-                    Enemy randomEnemy = enemies[Random.Range(0, enemies.Length)];
-                    Vector3 dropPosition = randomEnemy.transform.position;
+                    // Buscar un enemigo vivo aleatorio para dropear el huevo
+                    Enemy[] enemies = FindObjectsOfType<Enemy>();
                     
-                    EggDropper.Instance.DropSpecialEgg(condition.eggType, dropPosition);
-                }
-                else
-                {
-                    // Si no hay enemigos, dropear en el centro de la pantalla o cerca del player
-                    Player player = FindObjectOfType<Player>();
-                    Vector3 dropPosition = player != null ? player.transform.position : Vector3.zero;
-                    
-                    EggDropper.Instance.DropSpecialEgg(condition.eggType, dropPosition);
+                    if (enemies.Length > 0)
+                    {
+                        // Elegir un enemigo aleatorio
+                        Enemy randomEnemy = enemies[Random.Range(0, enemies.Length)];
+                        Vector3 dropPosition = randomEnemy.transform.position;
+                        
+                        EggDropper.Instance.DropSpecialEgg(condition.eggType, dropPosition);
+                    }
+                    else
+                    {
+                        // Si no hay enemigos, dropear en el centro de la pantalla o cerca del player
+                        Player player = FindObjectOfType<Player>();
+                        Vector3 dropPosition = player != null ? player.transform.position : Vector3.zero;
+                        
+                        EggDropper.Instance.DropSpecialEgg(condition.eggType, dropPosition);
+                    }
                 }
             }
-            
-            Debug.Log($"Condición cumplida: {condition.conditionName} - {condition.eggType} egg dropeado!");
         }
     }
-}
     
     // Método para resetear el estado del juego
     public void ResetGameState()
@@ -272,22 +290,23 @@ public class GameManager : MonoBehaviour
         {
             EggDropper.Instance.ResetEggDrops();
         }
-    
-        Debug.Log("GameManager reseteado");
     }
-    
+
+    private void OnDestroy()
+    {
+        // Limpiar la referencia si este es el Instance actual
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
+
     private void PrintStatus()
     {
-        Debug.Log(">> Estado del nivel:");
-        Debug.Log($">> Tiempo sobrevivido: {secondsAlive}/{secondsToSurvive} segundos");
-        Debug.Log(">> Objetivos individuales:");
-        
         foreach (var objective in killObjectives)
         {
             string status = objective.currentKills >= objective.killsRequired ? "✓ COMPLETO" : "✗ Incompleto";
-            Debug.Log($"   - {objective.enemyName}: {objective.currentKills}/{objective.killsRequired} {status}");
+            
         }
-        
-        Debug.Log($">> Total de kills: {GetTotalCurrentKills()}/{GetTotalKillsRequired()} (informativo)");
     }
 }

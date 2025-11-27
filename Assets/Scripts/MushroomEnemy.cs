@@ -38,8 +38,14 @@ public class MushroomEnemy : MonoBehaviour, IsDamageable
 
     private void Update()
     {
-        if (hasExploded || GameManager.Instance.playerIsWin)
+        
+        // Verificar si el Mushroom explotó o si existe el GameManager
+        if(hasExploded ||  GameManager.Instance == null) return;
+
+        // Si el player gano, destruir el enemigo
+        if (GameManager.Instance.playerIsWin)
         {
+            Destroy(gameObject);
             return;
         }
         
@@ -156,7 +162,6 @@ public class MushroomEnemy : MonoBehaviour, IsDamageable
                     int damage = Mathf.RoundToInt(Mathf.Lerp(minDamage, maxDamage, damagePercent));
                     
                     player.TakeDamage(damage);
-                    Debug.Log("Mushroom explotó! Daño: " + damage + " (distancia: " + distanceToPlayer.ToString("F2") + ")");
                 }
             }
         }

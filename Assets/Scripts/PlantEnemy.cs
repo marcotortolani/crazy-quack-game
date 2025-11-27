@@ -27,8 +27,13 @@ public class PlantEnemy : MonoBehaviour, IsDamageable
 
     private void Update()
     {
-        if (GameManager.Instance != null && GameManager.Instance.playerIsWin)
+        // Verificar que existe el GameManager
+        if(GameManager.Instance == null) return;
+
+        // Si el player gano, destruir el enemigo
+        if (GameManager.Instance.playerIsWin)
         {
+            Destroy(gameObject);
             return;
         }
 

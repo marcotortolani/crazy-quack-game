@@ -134,6 +134,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eggType: 2
-  shotsAvailable: 30
+  shotsAvailable: 120
   floatSpeed: 0.5
   floatAmount: 0.3

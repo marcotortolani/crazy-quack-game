@@ -24,14 +24,12 @@ public class PowerUpDropper : MonoBehaviour
     
     private void Awake()
     {
-        if (Instance == null)
+        if (Instance != null && Instance != this)
         {
-            Instance = this;
+            Destroy(Instance.gameObject);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+    
+        Instance = this;
     }
     
     public void TryDropPowerUp(Vector3 position)
@@ -43,7 +41,7 @@ public class PowerUpDropper : MonoBehaviour
             if (dropData.droppedCount >= dropData.dropCount)
                 continue;
             
-            // Tirar dado de probabilidad
+            // Calcular chance
             float randomValue = Random.Range(0f, 100f);
             
             if (randomValue <= dropData.dropChance)
@@ -55,9 +53,6 @@ public class PowerUpDropper : MonoBehaviour
                 GameObject powerUp = Instantiate(dropData.powerUpPrefab, spawnPosition, Quaternion.identity);
                 dropData.droppedCount++;
                 
-                Debug.Log($"PowerUp dropeado: {dropData.powerUpPrefab.name} ({dropData.droppedCount}/{dropData.dropCount})");
-                
-                // Solo dropear uno por muerte de enemigo
                 break;
             }
         }

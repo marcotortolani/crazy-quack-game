@@ -4340,7 +4340,7 @@ MonoBehaviour:
     killsRequired: 10
     currentKills: 0
     enemyIcon: {fileID: -1173213988, guid: d14318247ef3a4c249915cef940d49d7, type: 3}
-  secondsToSurvive: 90
+  secondsToSurvive: 60
   secondsAlive: 0
   playerIsDead: 0
   playerIsWin: 0

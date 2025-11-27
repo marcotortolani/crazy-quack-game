@@ -66,17 +66,14 @@ public class PowerUp : MonoBehaviour
         {
             case PowerUpType.Health:
                 player.AddLife(healthAmount);
-                Debug.Log($"PowerUp: +{healthAmount} vida");
                 break;
                 
             case PowerUpType.Speed:
                 player.ApplySpeedBoost(speedBoost, speedDuration);
-                Debug.Log($"PowerUp: +{speedBoost}x velocidad por {speedDuration}s");
                 break;
                 
             case PowerUpType.FireRate:
                 player.IncreaseFireRate(fireRateIncrease);
-                Debug.Log($"PowerUp: +{fireRateIncrease} balas/segundo");
                 break;
         }
     }

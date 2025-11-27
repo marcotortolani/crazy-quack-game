@@ -48,8 +48,6 @@ public class EggBullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log($"Bullet collided with: {collision.gameObject.name}, Tag: {collision.gameObject.tag}");
-        
         // Verificar si es damageable (enemigo)
         IsDamageable damageable = collision.gameObject.GetComponent<IsDamageable>();
         if (damageable != null)
@@ -63,12 +61,10 @@ public class EggBullet : MonoBehaviour
         // Si choca con pared
         if (collision.gameObject.CompareTag("Wall"))
         {
-            Debug.Log($"Hit wall! Bounce count: {bounceCount}/{maxBounces}");
             bounceCount++;
             
             if (bounceCount >= maxBounces)
             {
-                Debug.Log("Max bounces reached, destroying bullet");
                 SpawnCrackedEgg();
                 Destroy(gameObject);
             }
@@ -80,16 +76,10 @@ public class EggBullet : MonoBehaviour
                 Vector2 newVelocity = Vector2.Reflect(inDirection, inNormal) * speed;
                 rb.velocity = newVelocity;
                 
-                Debug.Log($"Bounced! New velocity: {newVelocity}");
-                
                 // Rotar el bullet en la nueva dirección
                 float angle = Mathf.Atan2(newVelocity.y, newVelocity.x) * Mathf.Rad2Deg - 90f;
                 transform.rotation = Quaternion.Euler(0, 0, angle);
             }
-        }
-        else
-        {
-            Debug.Log($"Hit something else: {collision.gameObject.name}");
         }
     }
 
@@ -97,7 +87,6 @@ public class EggBullet : MonoBehaviour
     {
         if (eggCrackedPrefab == null)
         {
-            Debug.LogWarning("Egg Cracked Prefab is not assigned!");
             return;
         }
         // Crear el huevo roto en la posición del impacto

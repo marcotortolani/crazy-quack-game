@@ -86,7 +86,6 @@ public class UiManager : MonoBehaviour
     private CanvasGroup deathAlertCanvasGroup;
     private bool isAlertActive = false;
     private Tweener currentAlertTween;
-    private float lastLifePercent = 1f;
     private bool hasShownEndScreen = false;
     
     void Start()
@@ -98,6 +97,9 @@ public class UiManager : MonoBehaviour
         
         // Ocultar cursor al inicio del juego
         Cursor.visible = false;
+        
+        // Limpiar/inicializar los textos de objetivos
+        InitializeKillObjectivesDisplay();
         
         
         // Configurar Death Alert
@@ -182,7 +184,6 @@ public class UiManager : MonoBehaviour
             if (player != null)
             {
                 lifePercent = (float)player.life / player.maxLife;
-                lastLifePercent = lifePercent;
             }
             else
             {
@@ -193,6 +194,45 @@ public class UiManager : MonoBehaviour
             UpdateDeathAlert(lifePercent);
             UpdateCountdown();
             UpdateKillObjectives();
+        }
+    }
+    
+    void InitializeKillObjectivesDisplay()
+    {
+        if (GameManager.Instance == null) return;
+        Debug.Log("Inicializando el panel de objetivos");
+
+        // Inicializar los displays de objetivos
+        foreach (var display in enemyKillDisplays)
+        {
+            foreach (var objective in GameManager.Instance.killObjectives)
+            {
+                if (objective.enemyName == display.enemyName)
+                {
+                    // Establecer texto inicial
+                    if (display.killCountText != null)
+                    {
+                        display.killCountText.text = $"0/{objective.killsRequired}";
+                        display.killCountText.color = Color.white;
+                    }
+                
+                    // Establecer icono
+                    if (objective.enemyIcon != null && display.enemyIcon != null)
+                    {
+                        display.enemyIcon.sprite = objective.enemyIcon;
+                    }
+                    Debug.Log($"Objetivo: {objective.enemyName} " );
+                
+                    break;
+                }
+            }
+        }
+
+        // Inicializar el texto de total
+        if (totalKillsText != null)
+        {
+            int required = GameManager.Instance.GetTotalKillsRequired();
+            totalKillsText.text = $"Total: 0";
         }
     }
 
@@ -307,27 +347,36 @@ public class UiManager : MonoBehaviour
     // Métodos de botones
     void LoadNextLevel()
     {
+        Debug.Log("Loading next level");
         // Resetear el GameManager al pasar de nivel
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.ResetGameState();
+            // GameManager.Instance.ResetGameState();
         }
+        
     
         // Ocultar paneles antes de cambiar de escena
         if (victoryPanel != null) victoryPanel.SetActive(false);
         if (defeatPanel != null) defeatPanel.SetActive(false);
     
         Time.timeScale = 1f;
+        // Limpiar/inicializar los textos de objetivos
+        Debug.Log("Llamada a inicializar el panel de objetivos");
+        InitializeKillObjectivesDisplay();
         SceneManager.LoadScene(nextLevelSceneName);
     }
 
     public void RestartLevel()
     {
+        
         // Resetear el GameManager ANTES de recargar la escena
         if (GameManager.Instance != null)
         {
             GameManager.Instance.ResetGameState();
         }
+        
+        // Limpiar/inicializar los textos de objetivos
+        InitializeKillObjectivesDisplay();
     
         // Ocultar paneles antes de reiniciar
         if (victoryPanel != null) victoryPanel.SetActive(false);

@@ -26,6 +26,17 @@ public class Enemy : MonoBehaviour, IsDamageable
 
     private void Update()
     {
+        // Verificar que existe el GameManager
+        if(GameManager.Instance == null) return;
+
+        // Si el player gano, destruir el enemigo
+        if (GameManager.Instance.playerIsWin)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
+        
         if (target == null)
         {
             FindTarget();
@@ -33,10 +44,6 @@ public class Enemy : MonoBehaviour, IsDamageable
         
         FollowingTarget();
 
-        if (GameManager.Instance.playerIsWin)
-        {
-            Destroy(gameObject);
-        }
     }
     
     private void FindTarget()
@@ -72,7 +79,7 @@ public class Enemy : MonoBehaviour, IsDamageable
         // Desactivar el collider inmediatamente para evitar más colisiones
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
-    
+        
         // Desactivar el script para que no siga ejecutándose
         enabled = false;
     
