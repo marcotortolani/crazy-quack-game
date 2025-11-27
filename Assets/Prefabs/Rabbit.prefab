@@ -103,9 +103,10 @@ MonoBehaviour:
   enemyType: Rabbit
   speed: 5
   speedRotation: 2
-  target: {fileID: 0}
   life: 40
   deathEffect: {fileID: 5137123306192418792, guid: 5a8d99fb95262ea458a7b580f2a1611c, type: 3}
+  unstuckDuration: 0.5
+  enemyPhysicsMaterial: {fileID: 0}
 --- !u!58 &2719306836766185297
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -115,7 +116,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 6761786072314701700}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: d6519f5e4bd404546995a9ed1a017255, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -140,7 +141,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.2}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.41
 --- !u!50 &5275972960240683740
 Rigidbody2D:
   serializedVersion: 4

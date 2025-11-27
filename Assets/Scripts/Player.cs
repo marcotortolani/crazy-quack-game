@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
 {
     private EggType currentEggType = EggType.Normal;
     private int specialEggShots = 0; // Disparos restantes con huevo especial
+    private int maxSpecialEggShots = 0; // Para calcular el porcentaje
     
     public float speed;
     public Vector3 movement;
@@ -211,6 +212,7 @@ public class Player : MonoBehaviour
     {
         currentEggType = newType;
         specialEggShots = shots;
+        maxSpecialEggShots = shots; // Guardar el máximo
         
         string eggName = newType == EggType.Fire ? "Fuego" : "Radiactivo";
     }
@@ -219,6 +221,12 @@ public class Player : MonoBehaviour
     public EggType GetCurrentEggType()
     {
         return currentEggType;
+    }
+    
+    // Método para obtener los disparos máximos
+    public int GetMaxSpecialEggShots()
+    {
+        return maxSpecialEggShots;
     }
     
     public int GetSpecialEggShots()

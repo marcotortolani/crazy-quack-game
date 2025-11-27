@@ -13,14 +13,24 @@ public class Enemy : MonoBehaviour, IsDamageable
     public int life;
     public GameObject deathEffect;
     
+    [Header("Obstacle Avoidance")]
+    public float unstuckDuration = 0.5f; // Tiempo moviéndose aleatoriamente
+    
     private Transform target;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
+    private Rigidbody2D rb; 
+    
+    // Variables para esquivar obstáculos
+    private bool isStuck = false;
+    private Vector2 randomDirection;
+    private float unstuckTimer = 0f;
 
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
         FindTarget();
     }
 
@@ -36,14 +46,12 @@ public class Enemy : MonoBehaviour, IsDamageable
             return;
         }
         
-        
         if (target == null)
         {
             FindTarget();
         }
         
         FollowingTarget();
-
     }
     
     private void FindTarget()
@@ -57,11 +65,33 @@ public class Enemy : MonoBehaviour, IsDamageable
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // Colisión con el player
         if (collision.gameObject.CompareTag("Player"))
         {
             Player player = collision.gameObject.GetComponent<Player>();
             player.TakeDamage(1);
             Destroy(gameObject);
+        }
+        
+        // Colisión con pared
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            // Generar dirección aleatoria para esquivar
+            if (target != null)
+            {
+                Vector2 directionToPlayer = (target.position - transform.position).normalized;
+                float randomAngle = Random.Range(-90f, 90f); // Ángulo aleatorio
+                randomDirection = Quaternion.Euler(0, 0, randomAngle) * directionToPlayer;
+            }
+            else
+            {
+                // Si no hay target, dirección completamente aleatoria
+                randomDirection = Random.insideUnitCircle.normalized;
+            }
+            
+            // Activar modo "atascado"
+            isStuck = true;
+            unstuckTimer = unstuckDuration;
         }
     }
 
@@ -116,26 +146,46 @@ public class Enemy : MonoBehaviour, IsDamageable
 
     private void FollowingTarget()
     {
-        if (target != null)
-        {
-            Vector3 direction = target.position - transform.position;
-            direction.Normalize();
+        if (target == null) return;
         
-            // Mover hacia el player
-            transform.position += direction * (speed * Time.deltaTime);
-
-            // Determinar la dirección predominante
-            if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+        Vector2 direction;
+        
+        if (isStuck)
+        {
+            unstuckTimer -= Time.deltaTime;
+            direction = randomDirection;
+            
+            if (unstuckTimer <= 0f)
             {
-                // Movimiento horizontal predominante
-                if (direction.x < 0)
-                {
-                    spriteRenderer.flipX = false;  // Derecha
-                }
-                else
-                {
-                    spriteRenderer.flipX = true;  // Izquierda
-                }
+                isStuck = false;
+            }
+        }
+        else
+        {
+            direction = ((Vector2)target.position - (Vector2)transform.position).normalized;
+        }
+        
+        // CAMBIO IMPORTANTE: Usar Rigidbody2D en lugar de transform.position
+        if (rb != null)
+        {
+            rb.velocity = direction * speed; // ← Usar velocity
+        }
+        else
+        {
+            // Fallback si no hay Rigidbody2D
+            transform.position += (Vector3)direction * (speed * Time.deltaTime);
+        }
+
+        // Flipear sprite según dirección
+        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+        {
+            if (direction.x < 0)
+            {
+                spriteRenderer.flipX = false;
+            }
+            else
+            {
+                spriteRenderer.flipX = true;
             }
         }
     }

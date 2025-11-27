@@ -30,6 +30,13 @@ public class UiManager : MonoBehaviour
     [Header("Death Alert")]
     public GameObject deathAlertPanel;
     
+    [Header("Special Egg Power")]
+    public GameObject specialEggPanel;
+    public Image eggIcon;
+    public Image progressBarFill;
+    public Sprite fireEggSprite;
+    public Sprite radioactiveEggSprite;
+    
     [Header("Victory Panel")]
     public GameObject victoryPanel;
     public TextMeshProUGUI victoryTitleText;
@@ -101,6 +108,11 @@ public class UiManager : MonoBehaviour
         // Limpiar/inicializar los textos de objetivos
         InitializeKillObjectivesDisplay();
         
+        // Ocultar panel de huevo especial al inicio
+        if (specialEggPanel != null)
+        {
+            specialEggPanel.SetActive(false);
+        }
         
         // Configurar Death Alert
         if (deathAlertPanel != null)
@@ -194,7 +206,96 @@ public class UiManager : MonoBehaviour
             UpdateDeathAlert(lifePercent);
             UpdateCountdown();
             UpdateKillObjectives();
+            UpdateSpecialEggDisplay();
         }
+    }
+    
+    // Actualizar display del huevo especial
+    void UpdateSpecialEggDisplay()
+    {
+        if (player == null || specialEggPanel == null) return;
+    
+        EggType currentEgg = player.GetCurrentEggType();
+        int shotsRemaining = player.GetSpecialEggShots();
+        int maxShots = player.GetMaxSpecialEggShots(); // ← Usar el valor real
+    
+        if (currentEgg != EggType.Normal && shotsRemaining > 0)
+        {
+            if (!specialEggPanel.activeSelf)
+            {
+                specialEggPanel.SetActive(true);
+                AnimateEggPanelIn();
+            }
+        
+            if (eggIcon != null)
+            {
+                eggIcon.sprite = currentEgg == EggType.Fire ? fireEggSprite : radioactiveEggSprite;
+            }
+        
+            if (progressBarFill != null)
+            {
+                // Calcular porcentaje dinámicamente
+                float fillAmount = maxShots > 0 ? (float)shotsRemaining / maxShots : 0f;
+                progressBarFill.fillAmount = fillAmount;
+            
+                // Color según tipo
+                if (currentEgg == EggType.Fire)
+                {
+                    progressBarFill.color = new Color(1f, 0.5f, 0f); // Naranja
+                }
+                else
+                {
+                    progressBarFill.color = new Color(0f, 1f, 0f); // Verde
+                }
+            }
+        }
+        else
+        {
+            if (specialEggPanel.activeSelf)
+            {
+                AnimateEggPanelOut();
+            }
+        }
+    }
+
+    
+    // Animación de entrada del panel
+    void AnimateEggPanelIn()
+    {
+        if (specialEggPanel == null) return;
+        
+        CanvasGroup cg = specialEggPanel.GetComponent<CanvasGroup>();
+        if (cg == null) cg = specialEggPanel.AddComponent<CanvasGroup>();
+        
+        cg.alpha = 0f;
+        cg.DOFade(1f, 0.3f);
+        
+        specialEggPanel.transform.localScale = Vector3.zero;
+        specialEggPanel.transform.DOScale(1f, 0.4f).SetEase(Ease.OutBack);
+    }
+    
+    // Animación de salida del panel
+    void AnimateEggPanelOut()
+    {
+        if (specialEggPanel == null) return;
+        
+        CanvasGroup cg = specialEggPanel.GetComponent<CanvasGroup>();
+        if (cg != null)
+        {
+            cg.DOFade(0f, 0.3f).OnComplete(() => 
+            {
+                if (specialEggPanel != null)
+                {
+                    specialEggPanel.SetActive(false);
+                }
+            });
+        }
+        else
+        {
+            specialEggPanel.SetActive(false);
+        }
+        
+        specialEggPanel.transform.DOScale(0.8f, 0.3f);
     }
     
     void InitializeKillObjectivesDisplay()
