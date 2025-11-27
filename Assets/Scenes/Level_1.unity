@@ -305,6 +305,8 @@ MonoBehaviour:
   maxLife: 20
   gun: {fileID: 527902392}
   bullet: {fileID: 7209956692116779984, guid: c6fc6061bdfe543b69bab1d9d7722c7d, type: 3}
+  fireEggBullet: {fileID: 6145479784266706103, guid: c6d6184124816450599f4dd2ad873f90, type: 3}
+  radioactiveEggBullet: {fileID: 4737159826211697659, guid: 363dfb5e49f0245cc9f08a6fc2bbde8e, type: 3}
   bulletSpawnOrigin: {fileID: 2021846231}
   bulletsPerSecond: 2
   maxBulletsPerSecond: 10
@@ -3953,83 +3955,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!1001 &1158283690
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2321315690441468715, guid: c6fc6061bdfe543b69bab1d9d7722c7d, type: 3}
-      propertyPath: speed
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2321315690441468715, guid: c6fc6061bdfe543b69bab1d9d7722c7d, type: 3}
-      propertyPath: damage
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 2321315690441468715, guid: c6fc6061bdfe543b69bab1d9d7722c7d, type: 3}
-      propertyPath: maxBounces
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2321315690441468715, guid: c6fc6061bdfe543b69bab1d9d7722c7d, type: 3}
-      propertyPath: eggCrackedPrefab
-      value: 
-      objectReference: {fileID: 7094396682119785525, guid: 2f7581529eaa441b0bd83981e82427c6, type: 3}
-    - target: {fileID: 4175805351248186134, guid: c6fc6061bdfe543b69bab1d9d7722c7d, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 3311892455330867166, guid: 554d4c39029eb479f806ccd1f96d14de, type: 3}
-    - target: {fileID: 7209956692116779984, guid: c6fc6061bdfe543b69bab1d9d7722c7d, type: 3}
-      propertyPath: m_Name
-      value: EggFireBullet
-      objectReference: {fileID: 0}
-    - target: {fileID: 7865652932056041231, guid: c6fc6061bdfe543b69bab1d9d7722c7d, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -11.581037
-      objectReference: {fileID: 0}
-    - target: {fileID: 7865652932056041231, guid: c6fc6061bdfe543b69bab1d9d7722c7d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.65433574
-      objectReference: {fileID: 0}
-    - target: {fileID: 7865652932056041231, guid: c6fc6061bdfe543b69bab1d9d7722c7d, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7865652932056041231, guid: c6fc6061bdfe543b69bab1d9d7722c7d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 7865652932056041231, guid: c6fc6061bdfe543b69bab1d9d7722c7d, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7865652932056041231, guid: c6fc6061bdfe543b69bab1d9d7722c7d, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7865652932056041231, guid: c6fc6061bdfe543b69bab1d9d7722c7d, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 7865652932056041231, guid: c6fc6061bdfe543b69bab1d9d7722c7d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7865652932056041231, guid: c6fc6061bdfe543b69bab1d9d7722c7d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7865652932056041231, guid: c6fc6061bdfe543b69bab1d9d7722c7d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -90
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c6fc6061bdfe543b69bab1d9d7722c7d, type: 3}
 --- !u!1 &1165291594
 GameObject:
   m_ObjectHideFlags: 0
@@ -4404,21 +4329,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   killObjectives:
   - enemyName: Chicken
-    killsRequired: 40
+    killsRequired: 30
     currentKills: 0
     enemyIcon: {fileID: -1894240506, guid: a448ad760c7b94d658d420ff5731c722, type: 3}
   - enemyName: Rabbit
-    killsRequired: 30
+    killsRequired: 20
     currentKills: 0
     enemyIcon: {fileID: 1948076721, guid: f1ba5a57411fb4ab0bf01bac88003444, type: 3}
   - enemyName: Mushroom
-    killsRequired: 20
+    killsRequired: 10
     currentKills: 0
     enemyIcon: {fileID: -1173213988, guid: d14318247ef3a4c249915cef940d49d7, type: 3}
   secondsToSurvive: 90
   secondsAlive: 0
   playerIsDead: 0
   playerIsWin: 0
+  eggDropConditions:
+  - conditionName: Fire Egg Unlock
+    eggType: 1
+    requirements:
+    - enemyName: Chicken
+      killsRequired: 10
+    - enemyName: Rabbit
+      killsRequired: 10
+    hasDropped: 0
+  - conditionName: Radioactive Egg Unlock
+    eggType: 2
+    requirements:
+    - enemyName: Chicken
+      killsRequired: 20
+    - enemyName: Rabbit
+      killsRequired: 20
+    - enemyName: Mushroom
+      killsRequired: 1
+    hasDropped: 0
 --- !u!4 &1182243388
 Transform:
   m_ObjectHideFlags: 0
@@ -4781,6 +4725,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1327078064}
   m_CullTransparentMesh: 1
+--- !u!1 &1380552418
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1380552420}
+  - component: {fileID: 1380552419}
+  m_Layer: 0
+  m_Name: EggDropper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1380552419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1380552418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d76e0719d55f4cdbb991337504e20c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eggDrops:
+  - eggType: 1
+    eggPowerUpPrefab: {fileID: 5591253062724566890, guid: 9c42e337f863944209e4a87d126eb06d, type: 3}
+    hasDropped: 0
+  - eggType: 2
+    eggPowerUpPrefab: {fileID: 1066460988767389951, guid: 6a712410364ac4e07887f49e7b4292c5, type: 3}
+    hasDropped: 0
+  dropRadius: 0.5
+--- !u!4 &1380552420
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1380552418}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.6611733, y: 2.197442, z: -0.13795696}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1466602391
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7674,4 +7670,4 @@ SceneRoots:
   - {fileID: 1594304829}
   - {fileID: 1664635842}
   - {fileID: 1650068171}
-  - {fileID: 1158283690}
+  - {fileID: 1380552420}

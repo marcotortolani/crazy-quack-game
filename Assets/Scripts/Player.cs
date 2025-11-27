@@ -3,13 +3,20 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private EggType currentEggType = EggType.Normal;
+    private int specialEggShots = 0; // Disparos restantes con huevo especial
+    
     public float speed;
     public Vector3 movement;
     public Animator myAnimator;
     public int life;
     public int maxLife = 10;
+    
+    [Header("Shooting")]
     public GameObject gun;
-    public GameObject bullet;
+    public GameObject bullet;               // Huevo normal
+    public GameObject fireEggBullet;        // Huevo de fuego
+    public GameObject radioactiveEggBullet; // Huevo radiactivo
     public Transform bulletSpawnOrigin;
     public int bulletsPerSecond = 4;
     public int maxBulletsPerSecond = 20; // Límite máximo para evitar excesivas instancias de balas
@@ -21,7 +28,7 @@ public class Player : MonoBehaviour
     private float _bulletFireRate;
     private int _lastUpgradeSecond = 0;
     
-    // Variables para el speed boost (sin coroutine)
+    // Variables para el speed boost
     private float _speedBoostTimer = 0f;
     private float _originalSpeed;
     private bool _isSpeedBoosted = false;
@@ -88,6 +95,8 @@ public class Player : MonoBehaviour
 
     private void ShootDirection()
     {
+        if (gun == null) return;
+    
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 mouseDirection = mousePosition - transform.position;
         mouseDirection.Normalize();
@@ -95,10 +104,76 @@ public class Player : MonoBehaviour
         float angle = Mathf.Atan2(mouseDirection.y, mouseDirection.x) * Mathf.Rad2Deg;
         gun.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
+        GameObject bulletToShoot = GetCurrentBullet();
+    
+        Debug.Log($"Bullet a disparar: {(bulletToShoot != null ? bulletToShoot.name : "NULL")}"); // ← NUEVO
+    
+        if (bulletToShoot == null)
+        {
+            Debug.LogWarning("No bullet prefab assigned!");
+            return;
+        }
+    
         Quaternion angleAdjustment = Quaternion.Euler(0, 0, -90);
-        Instantiate(bullet, bulletSpawnOrigin.transform.position, gun.transform.rotation * angleAdjustment);
+        GameObject instantiatedBullet = Instantiate(bulletToShoot, bulletSpawnOrigin.transform.position, gun.transform.rotation * angleAdjustment);
+    
+        Debug.Log($"Bullet instanciado: {instantiatedBullet.name}"); // ← NUEVO
+    
+        // Reducir contador DESPUÉS de disparar
+        if (currentEggType != EggType.Normal)
+        {
+            specialEggShots--;
+            Debug.Log($"Disparo especial usado. Quedan: {specialEggShots}");
         
+            if (specialEggShots <= 0)
+            {
+                currentEggType = EggType.Normal;
+                Debug.Log("Huevo especial agotado, volviendo a huevo normal");
+            }
+        }
+    
         AudioManager.Instance.PlaySound("PlayerShoot");
+    }
+    
+    private GameObject GetCurrentBullet()
+    {
+        Debug.Log($"GetCurrentBullet llamado. Current type: {currentEggType}, Shots: {specialEggShots}");
+        
+        switch (currentEggType)
+        {
+            case EggType.Fire:
+                Debug.Log($"Devolviendo Fire Egg. Prefab asignado: {fireEggBullet != null}");
+                return fireEggBullet != null ? fireEggBullet : bullet;
+            
+            case EggType.Radioactive:
+                Debug.Log($"Devolviendo Radioactive Egg. Prefab asignado: {radioactiveEggBullet != null}");
+                return radioactiveEggBullet != null ? radioactiveEggBullet : bullet;
+            
+            case EggType.Normal:
+            default:
+                Debug.Log("Devolviendo huevo normal");
+                return bullet;
+        }
+    }
+    
+    public void ChangeEggType(EggType newType, int shots)
+    {
+        currentEggType = newType;
+        specialEggShots = shots;
+        
+        string eggName = newType == EggType.Fire ? "Fuego" : "Radiactivo";
+        Debug.Log($"Huevo especial recogido: {eggName} ({shots} disparos)");
+    }
+    
+    // Método para obtener info del huevo actual
+    public EggType GetCurrentEggType()
+    {
+        return currentEggType;
+    }
+    
+    public int GetSpecialEggShots()
+    {
+        return specialEggShots;
     }
 
     private void Movement()

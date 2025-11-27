@@ -139,7 +139,7 @@ public class PlantEnemy : MonoBehaviour, IsDamageable
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         if (sr != null) sr.enabled = false;
         
-        // Intentar dropear power-up
+        // Intentar dropear power-up normal
         if (PowerUpDropper.Instance != null)
         {
             PowerUpDropper.Instance.TryDropPowerUp(transform.position);
