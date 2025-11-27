@@ -23,6 +23,11 @@ public class Player : MonoBehaviour
     
     public bool canShoot = true;
     
+    [Header("Damage Effect")]
+    public float damageBlinkDuration = 1f;      // Duración total del parpadeo
+    public float blinkInterval = 0.1f;          // Velocidad del parpadeo
+    public bool isInvulnerable = false;         // Invulnerabilidad temporal
+    
     // variables privadas para el cálculo de la frecuencia de spawneo
     private float _nextFireTime = 0f;
     private float _bulletFireRate;
@@ -32,11 +37,20 @@ public class Player : MonoBehaviour
     private float _speedBoostTimer = 0f;
     private float _originalSpeed;
     private bool _isSpeedBoosted = false;
+    
+    // Variables para el efecto de daño
+    private SpriteRenderer _spriteRenderer;
+    private bool _isBlinking = false;
+    private float _blinkTimer = 0f;
+    private float _blinkIntervalTimer = 0f;
+    private bool _spriteVisible = true;
 
     private void Start()
     {
         life = maxLife;
         _originalSpeed = speed;
+        
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         
         if (!canShoot)
         {
@@ -50,7 +64,7 @@ public class Player : MonoBehaviour
     {
         // Manejar speed boost timer
         UpdateSpeedBoost();
-        
+        UpdateDamageBlink();
         Movement();
         UpdateFireRate();
 
@@ -90,6 +104,52 @@ public class Player : MonoBehaviour
         {
             _bulletFireRate = 0.25f;
         }
+    }
+    
+    //  Método para manejar el parpadeo
+    private void UpdateDamageBlink()
+    {
+        if (!_isBlinking) return;
+        
+        _blinkTimer -= Time.deltaTime;
+        _blinkIntervalTimer -= Time.deltaTime;
+        
+        // Alternar visibilidad del sprite
+        if (_blinkIntervalTimer <= 0f)
+        {
+            _spriteVisible = !_spriteVisible;
+            
+            if (_spriteRenderer != null)
+            {
+                // Alternar entre blanco y rojo
+                _spriteRenderer.color = _spriteVisible ? Color.white : Color.red;
+            }
+            
+            _blinkIntervalTimer = blinkInterval;
+        }
+        
+        // Terminar el parpadeo
+        if (_blinkTimer <= 0f)
+        {
+            _isBlinking = false;
+            isInvulnerable = false;
+            
+            // Asegurar que el sprite esté visible
+            if (_spriteRenderer != null)
+            {
+                _spriteRenderer.enabled = true;
+                _spriteRenderer.color = Color.white;
+            }
+        }
+    }
+    
+    // Iniciar el efecto de parpadeo
+    private void StartDamageBlink()
+    {
+        _isBlinking = true;
+        isInvulnerable = true;
+        _blinkTimer = damageBlinkDuration;
+        _blinkIntervalTimer = blinkInterval;
     }
 
     private void ShootDirection()
@@ -237,8 +297,20 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
+        // No recibir daño si está en invulnerabilidad
+        if (isInvulnerable) return;
+        
         life -= amount;
         if (life < 0) life = 0;
+        
+        // Reproducir sonido de daño
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySound("PlayerHurt");
+        }
+        
+        // Iniciar efecto de parpadeo
+        StartDamageBlink();
         
         if (life <= 0)
         {
