@@ -359,6 +359,21 @@ public class UiManager : MonoBehaviour
     {
         if (victoryPanel == null) return;
         
+        // Marcar nivel actual como completado
+        if (LevelProgressManager.Instance != null)
+        {
+            string currentSceneName = SceneManager.GetActiveScene().name;
+        
+            if (currentSceneName == "Level_1")
+            {
+                LevelProgressManager.Instance.CompleteLevel("Level1");
+            }
+            else if (currentSceneName == "Level_2")
+            {
+                LevelProgressManager.Instance.CompleteLevel("Level2");
+            }
+        }
+        
         // Pausar el juego
         Time.timeScale = 0f;
         
@@ -448,35 +463,13 @@ public class UiManager : MonoBehaviour
     // Métodos de botones
     void LoadNextLevel()
     {
-        Debug.Log("Loading next level");
-        // Resetear el GameManager al pasar de nivel
-        if (GameManager.Instance != null)
-        {
-            // GameManager.Instance.ResetGameState();
-        }
-        
-        // Marcar nivel actual como completado
-        if (LevelProgressManager.Instance != null)
-        {
-            string currentSceneName = SceneManager.GetActiveScene().name;
-        
-            if (currentSceneName == "Level_1")
-            {
-                LevelProgressManager.Instance.CompleteLevel("Level1");
-            }
-            else if (currentSceneName == "Level_2")
-            {
-                LevelProgressManager.Instance.CompleteLevel("Level2");
-            }
-        }
-    
         // Ocultar paneles antes de cambiar de escena
         if (victoryPanel != null) victoryPanel.SetActive(false);
         if (defeatPanel != null) defeatPanel.SetActive(false);
     
         Time.timeScale = 1f;
+        
         // Limpiar/inicializar los textos de objetivos
-        Debug.Log("Llamada a inicializar el panel de objetivos");
         InitializeKillObjectivesDisplay();
         SceneManager.LoadScene(nextLevelSceneName);
     }

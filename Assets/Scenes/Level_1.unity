@@ -4505,9 +4505,9 @@ MonoBehaviour:
     eggType: 1
     requirements:
     - enemyName: Chicken
-      killsRequired: 1
+      killsRequired: 10
     - enemyName: Rabbit
-      killsRequired: 1
+      killsRequired: 5
     hasDropped: 0
   - conditionName: Radioactive Egg Unlock
     eggType: 2
@@ -5030,11 +5030,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8174679767012916418, guid: 9a00e3c268d4d48f1bfcfe362a1ce161, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.15
+      value: 10.84
       objectReference: {fileID: 0}
     - target: {fileID: 8174679767012916418, guid: 9a00e3c268d4d48f1bfcfe362a1ce161, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.61
+      value: 4.55
       objectReference: {fileID: 0}
     - target: {fileID: 8174679767012916418, guid: 9a00e3c268d4d48f1bfcfe362a1ce161, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5802,11 +5802,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8174679767012916418, guid: 9a00e3c268d4d48f1bfcfe362a1ce161, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.72
+      value: -10.41
       objectReference: {fileID: 0}
     - target: {fileID: 8174679767012916418, guid: 9a00e3c268d4d48f1bfcfe362a1ce161, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.24
+      value: -7.07
       objectReference: {fileID: 0}
     - target: {fileID: 8174679767012916418, guid: 9a00e3c268d4d48f1bfcfe362a1ce161, type: 3}
       propertyPath: m_LocalPosition.z
