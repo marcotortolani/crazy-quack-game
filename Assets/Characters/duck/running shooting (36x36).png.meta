@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f59b408c3d87d46ac956b8812dea6b2b
+guid: 85643aff6647e7646a85935c2e924010
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Hit (36x36)_0
+      name: running shooting (36x36)_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 36
-        height: 36
+        width: 32
+        height: 39
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 88f2ba712a31afb479429bedca355fb2
-      internalID: 387916925
+      spriteID: 07297156af80ea84d8568cb6f3b019a0
+      internalID: -1459433028
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hit (36x36)_1
+      name: running shooting (36x36)_1
       rect:
         serializedVersion: 2
-        x: 36
+        x: 32
         y: 0
-        width: 36
-        height: 36
+        width: 32
+        height: 39
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,20 +145,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f857a4ad4a45b9e4697a500111a3b2c7
-      internalID: -2004051496
+      spriteID: 6f88e894abdfa1d42b9f2cc56ad29ea0
+      internalID: 964550440
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hit (36x36)_2
+      name: running shooting (36x36)_2
       rect:
         serializedVersion: 2
-        x: 72
+        x: 64
         y: 0
-        width: 36
-        height: 36
+        width: 32
+        height: 39
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,20 +166,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 719257b4f481bad47bb27667978af83e
-      internalID: 1572171838
+      spriteID: 485ac85a9561b264ab1b1f02d07c7852
+      internalID: -1620384486
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hit (36x36)_3
+      name: running shooting (36x36)_3
       rect:
         serializedVersion: 2
-        x: 108
+        x: 96
         y: 0
-        width: 36
-        height: 36
+        width: 32
+        height: 39
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,20 +187,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4a61fe61fe4b54b49afabf4ed0c4c7d5
-      internalID: 1292410707
+      spriteID: 33e164a6a6548ad4e90434e59c53ce1a
+      internalID: -1701495086
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hit (36x36)_4
+      name: running shooting (36x36)_4
       rect:
         serializedVersion: 2
-        x: 144
+        x: 128
         y: 0
-        width: 36
-        height: 36
+        width: 32
+        height: 39
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -208,8 +208,92 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ef951f0a148b9a54ba2c8d9184ee4384
-      internalID: -562268072
+      spriteID: 2fc8e07454f471740876b7077ce6f51d
+      internalID: -1973982048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: running shooting (36x36)_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68c0f7c30b045d646b6cc56f3865675e
+      internalID: 359673875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: running shooting (36x36)_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48645cc9149506a439d23e072a180538
+      internalID: -1480959144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: running shooting (36x36)_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b96bddc42db49d940b75f31a5fa88ef8
+      internalID: 847374384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: running shooting (36x36)_8
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 32
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e34515b4b8639214ab50c63cfb16698f
+      internalID: 755674728
       vertices: []
       indices: 
       edges: []
@@ -225,11 +309,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Hit (36x36)_0: 387916925
-      Hit (36x36)_1: -2004051496
-      Hit (36x36)_2: 1572171838
-      Hit (36x36)_3: 1292410707
-      Hit (36x36)_4: -562268072
+      running shooting (36x36)_0: -1459433028
+      running shooting (36x36)_1: 964550440
+      running shooting (36x36)_2: -1620384486
+      running shooting (36x36)_3: -1701495086
+      running shooting (36x36)_4: -1973982048
+      running shooting (36x36)_5: 359673875
+      running shooting (36x36)_6: -1480959144
+      running shooting (36x36)_7: 847374384
+      running shooting (36x36)_8: 755674728
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

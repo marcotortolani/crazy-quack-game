@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f59b408c3d87d46ac956b8812dea6b2b
+guid: 4bdb457471af9d247bee4d8d0044ece3
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Hit (36x36)_0
+      name: walking (36x36)_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 36
-        height: 36
+        width: 32
+        height: 37
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 88f2ba712a31afb479429bedca355fb2
-      internalID: 387916925
+      spriteID: af975f2456ff76246a97508308ad107c
+      internalID: -1938075543
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hit (36x36)_1
+      name: walking (36x36)_1
       rect:
         serializedVersion: 2
-        x: 36
+        x: 32
         y: 0
-        width: 36
-        height: 36
+        width: 32
+        height: 37
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,20 +145,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f857a4ad4a45b9e4697a500111a3b2c7
-      internalID: -2004051496
+      spriteID: 04afa84c89bd70942b8fa4a75f792643
+      internalID: -463804105
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hit (36x36)_2
+      name: walking (36x36)_2
       rect:
         serializedVersion: 2
-        x: 72
+        x: 64
         y: 0
-        width: 36
-        height: 36
+        width: 32
+        height: 37
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,20 +166,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 719257b4f481bad47bb27667978af83e
-      internalID: 1572171838
+      spriteID: 64218493659671544b53bb5bac9b01f3
+      internalID: 795779094
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hit (36x36)_3
+      name: walking (36x36)_3
       rect:
         serializedVersion: 2
-        x: 108
+        x: 96
         y: 0
-        width: 36
-        height: 36
+        width: 32
+        height: 37
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,20 +187,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4a61fe61fe4b54b49afabf4ed0c4c7d5
-      internalID: 1292410707
+      spriteID: e17a2ec5f50dd2f4d862c198e33c87ab
+      internalID: 1278935126
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hit (36x36)_4
+      name: walking (36x36)_4
       rect:
         serializedVersion: 2
-        x: 144
+        x: 128
         y: 0
-        width: 36
-        height: 36
+        width: 32
+        height: 37
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -208,8 +208,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ef951f0a148b9a54ba2c8d9184ee4384
-      internalID: -562268072
+      spriteID: bba4114e429654d4aaabfaa2ae750f03
+      internalID: 1400742619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking (36x36)_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca659d4d84a0b5b4ea8c26f48806d0d5
+      internalID: 972989898
       vertices: []
       indices: 
       edges: []
@@ -225,11 +246,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Hit (36x36)_0: 387916925
-      Hit (36x36)_1: -2004051496
-      Hit (36x36)_2: 1572171838
-      Hit (36x36)_3: 1292410707
-      Hit (36x36)_4: -562268072
+      walking (36x36)_0: -1938075543
+      walking (36x36)_1: -463804105
+      walking (36x36)_2: 795779094
+      walking (36x36)_3: 1278935126
+      walking (36x36)_4: 1400742619
+      walking (36x36)_5: 972989898
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
