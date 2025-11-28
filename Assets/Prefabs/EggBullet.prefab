@@ -9,8 +9,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -7781702063819512406, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
-      propertyPath: m_Constraints
+      propertyPath: m_AngularDrag
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7781702063819512406, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
+      propertyPath: m_Constraints
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -7781702063819512406, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
       propertyPath: m_SleepingMode

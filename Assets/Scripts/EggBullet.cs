@@ -7,11 +7,12 @@ public class EggBullet : MonoBehaviour
     public int maxBounces = 3;
     
     [Header("Egg Crack Effect")]
-    public GameObject eggCrackedPrefab; // El sprite del huevo roto
-    public float crackedLifetime = 4f;  // Duración del huevo roto
+    public GameObject eggCrackedPrefab;
+    public float crackedLifetime = 4f;
     
     private int bounceCount = 0;
     private Rigidbody2D rb;
+    private bool hasCollided = false; // Evitar múltiples colisiones en el mismo frame
 
     private void Start()
     {
@@ -21,7 +22,7 @@ public class EggBullet : MonoBehaviour
             rb.velocity = transform.up * speed;
         }
         
-        // Ignorar colisión con el player que disparó
+        // Ignorar colisión con el player
         Player player = FindObjectOfType<Player>();
         if (player != null)
         {
@@ -45,13 +46,15 @@ public class EggBullet : MonoBehaviour
         }
     }
 
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (hasCollided) return; // Evitar procesamiento múltiple
+        
         // Verificar si es damageable (enemigo)
         IsDamageable damageable = collision.gameObject.GetComponent<IsDamageable>();
         if (damageable != null)
         {
+            hasCollided = true;
             damageable.TakeDamage(damage);
             SpawnCrackedEgg();
             Destroy(gameObject);
@@ -65,34 +68,130 @@ public class EggBullet : MonoBehaviour
             
             if (bounceCount >= maxBounces)
             {
+                hasCollided = true;
                 SpawnCrackedEgg();
                 Destroy(gameObject);
             }
             else
             {
-                // Calcular rebote
+                // Calcular rebote en espejo
                 Vector2 inDirection = rb.velocity.normalized;
                 Vector2 inNormal = collision.contacts[0].normal;
-                Vector2 newVelocity = Vector2.Reflect(inDirection, inNormal) * speed;
-                rb.velocity = newVelocity;
                 
-                // Rotar el bullet en la nueva dirección
-                float angle = Mathf.Atan2(newVelocity.y, newVelocity.x) * Mathf.Rad2Deg - 90f;
-                transform.rotation = Quaternion.Euler(0, 0, angle);
+                // Vector2.Reflect ya hace el rebote en espejo correcto
+                Vector2 reflectedDirection = Vector2.Reflect(inDirection, inNormal);
+                rb.velocity = reflectedDirection * speed;
+                
+                Debug.Log($"Rebote {bounceCount}: inDirection={inDirection}, normal={inNormal}, reflected={reflectedDirection}");
             }
         }
     }
 
     private void SpawnCrackedEgg()
     {
-        if (eggCrackedPrefab == null)
-        {
-            return;
-        }
-        // Crear el huevo roto en la posición del impacto
-        GameObject crackedEgg = Instantiate(eggCrackedPrefab, transform.position, Quaternion.identity);
+        if (eggCrackedPrefab == null) return;
         
-        // Destruir el huevo roto después del tiempo especificado
+        GameObject crackedEgg = Instantiate(eggCrackedPrefab, transform.position, Quaternion.identity);
         Destroy(crackedEgg, crackedLifetime);
     }
 }
+
+
+// using UnityEngine;
+//
+// public class EggBullet : MonoBehaviour
+// {
+//     public float speed = 20f;
+//     public int damage = 10;
+//     public int maxBounces = 3;
+//     
+//     [Header("Egg Crack Effect")]
+//     public GameObject eggCrackedPrefab; // El sprite del huevo roto
+//     public float crackedLifetime = 4f;  // Duración del huevo roto
+//     
+//     private int bounceCount = 0;
+//     private Rigidbody2D rb;
+//
+//     private void Start()
+//     {
+//         rb = GetComponent<Rigidbody2D>();
+//         if (rb != null)
+//         {
+//             rb.velocity = transform.up * speed;
+//         }
+//         
+//         // Ignorar colisión con el player que disparó
+//         Player player = FindObjectOfType<Player>();
+//         if (player != null)
+//         {
+//             Collider2D playerCollider = player.GetComponent<Collider2D>();
+//             Collider2D bulletCollider = GetComponent<Collider2D>();
+//         
+//             if (playerCollider != null && bulletCollider != null)
+//             {
+//                 Physics2D.IgnoreCollision(bulletCollider, playerCollider);
+//             }
+//         }
+//     }
+//     
+//     private void Update()
+//     {
+//         // Hacer que el sprite apunte en la dirección del movimiento
+//         if (rb != null && rb.velocity.magnitude > 0.1f)
+//         {
+//             float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg - 90f;
+//             transform.rotation = Quaternion.Euler(0, 0, angle);
+//         }
+//     }
+//
+//
+//     private void OnCollisionEnter2D(Collision2D collision)
+//     {
+//         // Verificar si es damageable (enemigo)
+//         IsDamageable damageable = collision.gameObject.GetComponent<IsDamageable>();
+//         if (damageable != null)
+//         {
+//             damageable.TakeDamage(damage);
+//             SpawnCrackedEgg();
+//             Destroy(gameObject);
+//             return;
+//         }
+//
+//         // Si choca con pared
+//         if (collision.gameObject.CompareTag("Wall"))
+//         {
+//             bounceCount++;
+//             
+//             if (bounceCount >= maxBounces)
+//             {
+//                 SpawnCrackedEgg();
+//                 Destroy(gameObject);
+//             }
+//             else
+//             {
+//                 // Calcular rebote
+//                 Vector2 inDirection = rb.velocity.normalized;
+//                 Vector2 inNormal = collision.contacts[0].normal;
+//                 Vector2 newVelocity = Vector2.Reflect(inDirection, inNormal) * speed;
+//                 rb.velocity = newVelocity;
+//                 
+//                 // Rotar el bullet en la nueva dirección
+//                 float angle = Mathf.Atan2(newVelocity.y, newVelocity.x) * Mathf.Rad2Deg - 90f;
+//                 transform.rotation = Quaternion.Euler(0, 0, angle);
+//             }
+//         }
+//     }
+//
+//     private void SpawnCrackedEgg()
+//     {
+//         if (eggCrackedPrefab == null)
+//         {
+//             return;
+//         }
+//         // Crear el huevo roto en la posición del impacto
+//         GameObject crackedEgg = Instantiate(eggCrackedPrefab, transform.position, Quaternion.identity);
+//         
+//         // Destruir el huevo roto después del tiempo especificado
+//         Destroy(crackedEgg, crackedLifetime);
+//     }
+// }
