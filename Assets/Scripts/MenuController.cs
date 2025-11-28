@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 
@@ -11,13 +12,109 @@ public class MenuController : MonoBehaviour
     public RectTransform menuScreenCanvasGroup;
     public RectTransform controlsScreenCanvasGroup;
     public RectTransform creditsScreenCanvasGroup;
+    
+    [Header("Level Buttons")]
+    public Button trainingButton;
+    public Button level1Button;
+    public Button level2Button;
+    
+    [Header("Lock Icons (Optional)")] 
+    public GameObject trainingLockIcon;
+    public GameObject level1LockIcon;
+    public GameObject level2LockIcon;
+    
+    [Header("Scene Names")]
+    public string trainingSceneName = "Training_Level";
+    public string level1SceneName = "Level_1";
+    public string level2SceneName = "Level_2";
 
     private void Start()
     {
         DOTween.Init();
         Cursor.visible = true;
+        
+        // Limpiar listeners existentes ← IMPORTANTE
+        if (trainingButton != null)
+        {
+            trainingButton.onClick.RemoveAllListeners();
+            trainingButton.onClick.AddListener(() => LoadLevel(trainingSceneName));
+        }
+        
+        if (level1Button != null)
+        {
+            level1Button.onClick.RemoveAllListeners();
+            level1Button.onClick.AddListener(() => LoadLevel(level1SceneName));
+        }
+        
+        if (level2Button != null)
+        {
+            level2Button.onClick.RemoveAllListeners();
+            level2Button.onClick.AddListener(() => LoadLevel(level2SceneName));
+        }
+        
+        UpdateLevelButtons();
     }
     
+    // Método para cargar nivel
+    void LoadLevel(string sceneName)
+    {
+        Debug.Log($"Cargando escena: {sceneName}");
+        SceneManager.LoadScene(sceneName);
+    }
+    
+    // Actualizar estado de los botones de nivel
+    void UpdateLevelButtons()
+    {
+        if (LevelProgressManager.Instance == null)
+        {
+            Debug.LogWarning("LevelProgressManager no encontrado!");
+            return;
+        }
+        
+        // Training - siempre desbloqueado
+        SetButtonState(trainingButton, true, trainingLockIcon);
+        
+        // Level 1 - desbloqueado si completó Training
+        bool level1Unlocked = LevelProgressManager.Instance.IsLevelUnlocked("Level1");
+        SetButtonState(level1Button, level1Unlocked, level1LockIcon);
+        
+        // Level 2 - desbloqueado si completó Level 1
+        bool level2Unlocked = LevelProgressManager.Instance.IsLevelUnlocked("Level2");
+        SetButtonState(level2Button, level2Unlocked, level2LockIcon);
+    }
+    
+    //  Configurar estado visual del botón
+    void SetButtonState(Button button, bool unlocked, GameObject lockIcon)
+    {
+        if (button == null) return;
+        
+        button.interactable = unlocked;
+        
+        // Cambiar opacidad del botón
+        Image buttonImage = button.GetComponent<Image>();
+        if (buttonImage != null)
+        {
+            Color color = buttonImage.color;
+            color.a = unlocked ? 1f : 0.5f;
+            buttonImage.color = color;
+        }
+        
+        // Mostrar/ocultar ícono de candado
+        if (lockIcon != null)
+        {
+            lockIcon.SetActive(!unlocked);
+        }
+    }
+    
+    // Método público para resetear progreso (testing)
+    public void ResetAllProgress()
+    {
+        if (LevelProgressManager.Instance != null)
+        {
+            LevelProgressManager.Instance.ResetProgress();
+            UpdateLevelButtons();
+        }
+    }
 
     public void GoToMenuPanel()
     {
@@ -39,6 +136,9 @@ public class MenuController : MonoBehaviour
             levelsCanvasGroup.interactable = true;
             levelsCanvasGroup.DOFade(1f, 0.25f);
         });
+        
+        // Actualizar estado de botones al entrar al panel de niveles
+        UpdateLevelButtons();
     }
     
     // Transición horizontal (izquierda/derecha)

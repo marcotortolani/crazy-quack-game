@@ -304,6 +304,12 @@ public class TrainingManager : MonoBehaviour
 
     void LoadNextScene()
     {
+        // Marcar Training como completado 
+        if (LevelProgressManager.Instance != null)
+        {
+            LevelProgressManager.Instance.CompleteLevel("Training");
+        }
+        
         SceneManager.LoadScene(nextSceneName);
     }
 }
