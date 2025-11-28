@@ -70,6 +70,13 @@ public class Enemy : MonoBehaviour, IsDamageable
         {
             Player player = collision.gameObject.GetComponent<Player>();
             player.TakeDamage(1);
+            
+            // Efectos
+            if (deathEffect != null)
+            {
+                Instantiate(deathEffect, transform.position, Quaternion.identity);
+            }
+            
             Destroy(gameObject);
         }
         
@@ -165,7 +172,7 @@ public class Enemy : MonoBehaviour, IsDamageable
             direction = ((Vector2)target.position - (Vector2)transform.position).normalized;
         }
         
-        // CAMBIO IMPORTANTE: Usar Rigidbody2D en lugar de transform.position
+        // Usar Rigidbody2D en lugar de transform.position
         if (rb != null)
         {
             rb.velocity = direction * speed; // ← Usar velocity

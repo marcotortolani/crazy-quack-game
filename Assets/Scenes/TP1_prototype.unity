@@ -4580,6 +4580,11 @@ MonoBehaviour:
     killCountText: {fileID: 1877197189}
   totalKillsText: {fileID: 1861423451}
   deathAlertPanel: {fileID: 1823843159}
+  specialEggPanel: {fileID: 0}
+  eggIcon: {fileID: 0}
+  progressBarFill: {fileID: 0}
+  fireEggSprite: {fileID: 0}
+  radioactiveEggSprite: {fileID: 0}
   victoryPanel: {fileID: 1883740177}
   victoryTitleText: {fileID: 1408408832}
   victorySubtitleText: {fileID: 617500224}
