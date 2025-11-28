@@ -236,22 +236,35 @@ public class Player : MonoBehaviour
 
     private void Movement()
     {
-        float directionX = Input.GetAxis("Horizontal"); 
+        float directionX = Input.GetAxis("Horizontal");
         float directionY = Input.GetAxis("Vertical");
+    
         movement.x = directionX;
         movement.y = directionY;
-
+    
+        // Actualizar animación
         if (movement != Vector3.zero)
         {
             myAnimator.SetBool("isWalking", true);
-            myAnimator.SetFloat("MovementY", directionY);
-            myAnimator.SetFloat("MovementX", directionX);
+        
+            // Simplificado: solo -1 o 1
+            if (directionX < 0)
+            {
+                myAnimator.SetFloat("MovementX", -1f); // Izquierda
+                _spriteRenderer.flipX = false;
+            }
+            else if (directionX > 0)
+            {
+                myAnimator.SetFloat("MovementX", 1f); // Derecha
+                _spriteRenderer.flipX = true;
+            }
+            // Si solo se mueve en Y, mantener la última dirección X
         }
         else
         {
             myAnimator.SetBool("isWalking", false);
         }
-        
+    
         movement = Vector3.ClampMagnitude(movement, 1);
         transform.position += movement * (speed * Time.deltaTime);
     }
