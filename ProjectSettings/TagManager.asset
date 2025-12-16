@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - Wall
   - PatrolLimit
+  - OutsideWall
+  - InsideWall
   layers:
   - Default
   - TransparentFX
@@ -17,9 +19,9 @@ TagManager:
   - UI
   - PlayerBullet
   - Player
-  - 
-  - 
-  - 
+  - WallBoundary
+  - Enemy
+  - InsideWall
   - 
   - 
   - 

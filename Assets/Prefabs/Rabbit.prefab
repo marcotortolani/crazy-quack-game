@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2719306836766185297}
   - component: {fileID: 5275972960240683740}
   - component: {fileID: 3024364386476522261}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Rabbit
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 12
   m_Sprite: {fileID: 1948076721, guid: f1ba5a57411fb4ab0bf01bac88003444, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -101,12 +101,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyType: Rabbit
-  speed: 5
+  speed: 6
   speedRotation: 2
-  life: 40
+  life: 60
   deathEffect: {fileID: 5137123306192418792, guid: 5a8d99fb95262ea458a7b580f2a1611c, type: 3}
   unstuckDuration: 0.5
-  enemyPhysicsMaterial: {fileID: 0}
+  IsInsideArena: 0
 --- !u!58 &2719306836766185297
 CircleCollider2D:
   m_ObjectHideFlags: 0

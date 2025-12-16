@@ -16,6 +16,9 @@ public class Enemy : MonoBehaviour, IsDamageable
     [Header("Obstacle Avoidance")]
     public float unstuckDuration = 0.5f; // Tiempo moviéndose aleatoriamente
     
+    [HideInInspector] 
+    public bool IsInsideArena = false; // Indica si el enemigo ya activó la colisión con los muros
+    
     private Transform target;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
@@ -25,6 +28,7 @@ public class Enemy : MonoBehaviour, IsDamageable
     private bool isStuck = false;
     private Vector2 randomDirection;
     private float unstuckTimer = 0f;
+    
 
     private void Start()
     {
@@ -54,6 +58,8 @@ public class Enemy : MonoBehaviour, IsDamageable
         FollowingTarget();
     }
     
+    
+    
     private void FindTarget()
     {
         Player player = FindObjectOfType<Player>();
@@ -62,7 +68,37 @@ public class Enemy : MonoBehaviour, IsDamageable
             target = player.transform;
         }
     }
-
+    
+    // NUEVA FUNCIÓN LLAMADA POR EL InsideWall TRIGGER
+    
+    public void ActivateWallCollision()
+    {
+        // Solo activar si no lo hemos hecho ya
+        if (!IsInsideArena)
+        {
+            // Encontrar todos los BoxCollider 2D que sean Walls (Tag: "Wall")
+            // NOTA: Es crucial que tus muros sólidos tengan el Tag "Wall".
+            GameObject[] allWalls = GameObject.FindGameObjectsWithTag("Wall");
+            
+            Collider2D enemyCollider = GetComponent<Collider2D>();
+            
+            foreach (GameObject wall in allWalls)
+            {
+                Collider2D wallCollider = wall.GetComponent<Collider2D>();
+                
+                if (wallCollider != null)
+                {
+                    // 2. Reactivar la colisión entre este enemigo y la valla SÓLIDA
+                    // El valor 'false' le dice al motor que NO ignore la colisión (i.e., que colisione)
+                    Physics2D.IgnoreCollision(wallCollider, enemyCollider, false);
+                }
+            }
+            
+            // 3. Marcar como dentro. Esto previene que se repita la activación si vuelve a tocar el trigger.
+            IsInsideArena = true;
+        }
+    }
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Colisión con el player

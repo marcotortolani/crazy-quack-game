@@ -187,6 +187,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 30
   damage: 30
-  maxBounces: 1
+  maxBounces: 0
   eggCrackedPrefab: {fileID: 7094396682119785525, guid: 2f7581529eaa441b0bd83981e82427c6, type: 3}
   crackedLifetime: 5

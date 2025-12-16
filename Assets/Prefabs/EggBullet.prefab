@@ -54,11 +54,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1906527063019687085, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.440258
+      value: 51.27588
       objectReference: {fileID: 0}
     - target: {fileID: 1906527063019687085, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.9496689
+      value: -20.94929
       objectReference: {fileID: 0}
     - target: {fileID: 1906527063019687085, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -124,9 +124,14 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.8018868
       objectReference: {fileID: 0}
+    - target: {fileID: 5968623525718480863, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5385177286750443740, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
     - {fileID: -308099499898682874, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
+    - {fileID: 5968623525718480863, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -136,6 +141,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1392694756266670194, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
       insertIndex: 3
       addedObject: {fileID: 2321315690441468715}
+    - targetCorrespondingSourceObject: {fileID: 1392694756266670194, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 3039975187345414169}
   m_SourcePrefab: {fileID: 100100000, guid: 2b181147a69644d1f8c5d4237c3f8aa4, type: 3}
 --- !u!1 &7209956692116779984 stripped
 GameObject:
@@ -151,7 +159,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 7209956692116779984}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: a1dab5e72a98e41308a77c719f51b23c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -189,8 +197,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a7cb7cfc4e8840388f4623dd466f27b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
-  damage: 20
-  maxBounces: 3
+  bulletSpeed: 20
+  bulletDamage: 10
+  maxBounces: 2
   eggCrackedPrefab: {fileID: 3894315628169213498, guid: 40b91ab507c784ed7893066c27394e87, type: 3}
   crackedLifetime: 4
+--- !u!114 &3039975187345414169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7209956692116779984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48dd495dadffe4795817b0e5b3e5e7ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletSpeed: 20
+  bulletDamage: 10
+  maxBounces: 3

@@ -24,6 +24,19 @@ public class Player : MonoBehaviour
     
     public bool canShoot = true;
     
+    
+    // VARIABLES PARA SPRAY SHOOT (CONO)
+    [Header("Multi-Shot Setup")]
+    // Umbral para 2 balas: Dispara 1 bala/vez hasta este BPS
+    public int multiShotTwoThreshold = 5; 
+    // Umbral para 3 balas: Dispara 2 balas/vez hasta este BPS
+    public int multiShotThreeThreshold = 10; 
+    
+    // Ángulo de dispersión para 2 balas (ej: 20 grados)
+    public float twoShotSpreadAngle = 20f; 
+    // Ángulo de dispersión para 3 balas (ej: 45 grados)
+    public float threeShotSpreadAngle = 45f;
+    
     [Header("Damage Effect")]
     public float damageBlinkDuration = 1f;
     public float blinkInterval = 0.1f;
@@ -48,6 +61,9 @@ public class Player : MonoBehaviour
     
     // Variable para saber si está disparando
     private bool _isShooting = false;
+    // Tiempo mínimo que debe durar la animación de disparo (ajusta este valor)
+    private const float SHOOT_ANIM_DURATION = 0.15f; // 150 milisegundos
+    private float _shootAnimTimer = 0f;
 
     private void Start()
     {
@@ -74,23 +90,37 @@ public class Player : MonoBehaviour
 
         if(!GameManager.Instance) return;
         
-        // Determinar si está disparando ← MODIFICADO
-        _isShooting = false;
+        // Determinar si está disparando 
+        // 1. Manejar el temporizador de animación
+        if (_shootAnimTimer > 0)
+        {
+            _shootAnimTimer -= Time.deltaTime;
+            _isShooting = true;
+        }
+        else
+        {
+            _isShooting = false;
+        }
         
+        // 2. Ejecutar Disparo (y reactivar el temporizador)
         if (canShoot && !GameManager.Instance.playerIsDead && !GameManager.Instance.playerIsWin)
         {
             if (Time.time >= _nextFireTime)
             {
                 _nextFireTime = Time.time + _bulletFireRate;
                 ShootDirection();
-                _isShooting = true; // ← Marcar que disparó en este frame
+        
+                // ¡Se disparó! Activamos el temporizador y el flag
+                _shootAnimTimer = SHOOT_ANIM_DURATION; 
+                _isShooting = true; 
             }
         }
         
-        // Actualizar parámetro de animación
+        // 3. Actualizar parámetro de animación
         if (myAnimator != null)
         {
-            myAnimator.SetBool("isShooting", _isShooting);
+            // El valor de _isShooting ahora está controlado por el temporizador.
+            myAnimator.SetBool("isShooting", _isShooting); 
         }
         
         IncreaseBulletsRate();
@@ -176,8 +206,8 @@ public class Player : MonoBehaviour
         Vector3 mouseDirection = mousePosition - transform.position;
         mouseDirection.Normalize();
 
-        float angle = Mathf.Atan2(mouseDirection.y, mouseDirection.x) * Mathf.Rad2Deg;
-        gun.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        float baseAngle = Mathf.Atan2(mouseDirection.y, mouseDirection.x) * Mathf.Rad2Deg;
+        gun.transform.rotation = Quaternion.AngleAxis(baseAngle, Vector3.forward);
 
         GameObject bulletToShoot = GetCurrentBullet();
     
@@ -187,9 +217,70 @@ public class Player : MonoBehaviour
             return;
         }
     
-        Quaternion angleAdjustment = Quaternion.Euler(0, 0, -90);
-        GameObject instantiatedBullet = Instantiate(bulletToShoot, bulletSpawnOrigin.transform.position, gun.transform.rotation * angleAdjustment);
+        // Quaternion angleAdjustment = Quaternion.Euler(0, 0, -90);
+        // GameObject instantiatedBullet = Instantiate(bulletToShoot, bulletSpawnOrigin.transform.position, gun.transform.rotation * angleAdjustment);
     
+        
+        // LÓGICA DE TIRO MÚLTIPLE (CONO)
+        
+        int bulletsToSpawn = 1;
+        float currentSpreadAngle = 0f;
+        
+        if (bulletsPerSecond > multiShotThreeThreshold)
+        {
+            // Nivel 3: 3 balas
+            bulletsToSpawn = 3;
+            currentSpreadAngle = threeShotSpreadAngle;
+        }
+        else if (bulletsPerSecond > multiShotTwoThreshold)
+        {
+            // Nivel 2: 2 balas
+            bulletsToSpawn = 2;
+            currentSpreadAngle = twoShotSpreadAngle;
+        }
+        else
+        {
+            // Nivel 1: 1 bala (Disparo único)
+            bulletsToSpawn = 1;
+        }
+        
+        // -----------------------------------------------------
+        
+        // Calcular los ángulos de inicio y el incremento.
+        float startAngle = baseAngle;
+        
+        // Si disparamos más de 1 bala, calculamos el ángulo inicial para centrar el cono
+        if (bulletsToSpawn > 1)
+        {
+            // Mueve el ángulo inicial hacia atrás para que el tiro central esté en el medio del spread
+            startAngle = baseAngle - (currentSpreadAngle / 2f);
+        }
+        
+        // El incremento es el ángulo total de spread dividido por (número de balas - 1)
+        float angleIncrement = currentSpreadAngle / (bulletsToSpawn > 1 ? (bulletsToSpawn - 1) : 1);
+
+
+        for (int i = 0; i < bulletsToSpawn; i++)
+        {
+            float bulletAngle = 0f;
+            
+            if (bulletsToSpawn == 1)
+            {
+                bulletAngle = baseAngle;
+            }
+            else
+            {
+                // Calcula el ángulo actual dentro del spread
+                bulletAngle = startAngle + (angleIncrement * i);
+            }
+            
+            // Convertir el ángulo final a Quaternion (rotación)
+            Quaternion finalRotation = Quaternion.Euler(0, 0, bulletAngle - 90);
+            
+            // Spawnea la bala con la nueva rotación
+            Instantiate(bulletToShoot, bulletSpawnOrigin.position, finalRotation);
+        }
+        
         // Reducir contador DESPUÉS de disparar
         if (currentEggType != EggType.Normal)
         {

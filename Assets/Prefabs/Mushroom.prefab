@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3270308251095531651}
   - component: {fileID: 1298608243105104457}
   - component: {fileID: 5975199535500253782}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Mushroom
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 12
   m_Sprite: {fileID: -1173213988, guid: d14318247ef3a4c249915cef940d49d7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -149,7 +149,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!95 &1298608243105104457
 Animator:
   serializedVersion: 5
@@ -184,10 +184,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chaseSpeed: 10
-  detectionRange: 15
-  explosionTimer: 3
+  detectionRange: 30
+  explosionTimer: 5
   explosionRange: 2
   minDamage: 1
-  maxDamage: 4
+  maxDamage: 6
   explosionEffect: {fileID: 2433282508537954060, guid: 3ef3ae421f71c5c4e97fe12dc2fc6312, type: 3}
-  life: 10
+  life: 30
