@@ -216,10 +216,9 @@ public class PigEnemy : MonoBehaviour, IsDamageable
     {
         life -= damage;
         
-        if (life <= 0)
-        {
-            Die();
-        }
+        if (animator != null) animator.SetTrigger("hit");
+
+        if (life <= 0) Die();
     }
 
     private void Die()

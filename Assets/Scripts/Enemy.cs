@@ -141,6 +141,13 @@ public class Enemy : MonoBehaviour, IsDamageable
     public void TakeDamage(int damage)
     {
         life -= damage;
+
+        // Disparar la animación de Hit si el animator existe
+        if (animator != null)
+        {
+            animator.SetTrigger("hit");
+        }
+
         if (life <= 0)
         {
             Die();

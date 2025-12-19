@@ -185,8 +185,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a7cb7cfc4e8840388f4623dd466f27b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 40
-  damage: 50
+  bulletSpeed: 20
+  bulletDamage: 30
   maxBounces: 0
   eggCrackedPrefab: {fileID: 2176148046350128106, guid: 0ad9b5ef8f7b74ba997ead2524738439, type: 3}
   crackedLifetime: 4

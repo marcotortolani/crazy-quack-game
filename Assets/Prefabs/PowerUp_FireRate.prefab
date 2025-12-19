@@ -137,6 +137,6 @@ MonoBehaviour:
   healthAmount: 2
   speedBoost: 1.1
   speedDuration: 5
-  fireRateIncrease: 2
+  fireRateIncrease: 1
   floatSpeed: 0.5
   floatAmount: 0.3

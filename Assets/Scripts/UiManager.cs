@@ -30,12 +30,19 @@ public class UiManager : MonoBehaviour
     [Header("Death Alert")]
     public GameObject deathAlertPanel;
     
-    [Header("Special Egg Power")]
-    public GameObject specialEggPanel;
-    public Image eggIcon;
+    [Header("Permanent HUD Bullet Info")]
+    public Image currentBulletIconHUD;
+    
+    [Header("Special Bullet Power")]
+    public GameObject specialBulletPanel;
     public Image progressBarFill;
-    public Sprite fireEggSprite;
-    public Sprite radioactiveEggSprite;
+    public Sprite bulletNormalSprite;
+    public Sprite bulletSpecial1Sprite;
+    public Sprite bulletSpecial2Sprite;
+    
+    public float visiblePosY = 80f;      // La posición Y donde aparece
+    public float hiddenPosY = -200f; // La posicion Y donde queda fuera de la pantalla
+
     
     [Header("Victory Panel")]
     public GameObject victoryPanel;
@@ -94,6 +101,7 @@ public class UiManager : MonoBehaviour
     private bool isAlertActive = false;
     private Tweener currentAlertTween;
     private bool hasShownEndScreen = false;
+    private EggType lastEggType = EggType.Normal; // Para detectar cuando hay cambio
     
     void Start()
     {
@@ -109,9 +117,9 @@ public class UiManager : MonoBehaviour
         InitializeKillObjectivesDisplay();
         
         // Ocultar panel de huevo especial al inicio
-        if (specialEggPanel != null)
+        if (specialBulletPanel != null)
         {
-            specialEggPanel.SetActive(false);
+            specialBulletPanel.SetActive(false);
         }
         
         // Configurar Death Alert
@@ -206,96 +214,131 @@ public class UiManager : MonoBehaviour
             UpdateDeathAlert(lifePercent);
             UpdateCountdown();
             UpdateKillObjectives();
-            UpdateSpecialEggDisplay();
+            UpdateBulletHUD();
         }
     }
     
     // Actualizar display del huevo especial
-    void UpdateSpecialEggDisplay()
+    void UpdateBulletHUD()
     {
-        if (player == null || specialEggPanel == null) return;
-    
+        if (player == null || specialBulletPanel == null)  return;
+
         EggType currentEgg = player.GetCurrentEggType();
         int shotsRemaining = player.GetSpecialEggShots();
-        int maxShots = player.GetMaxSpecialEggShots(); // ← Usar el valor real
-    
+        int maxShots = player.GetMaxSpecialEggShots();
+
+        // --- LÓGICA DEL ICONO PERMANENTE (Esquina inferior izquierda) ---
+        if (currentBulletIconHUD != null)
+        {
+            // Detectar si el tipo de huevo cambió respecto al frame anterior
+            if (currentEgg != lastEggType)
+            {
+                // Solo animar si pasamos de Normal a Especial o cambiamos entre Especiales
+                if (currentEgg != EggType.Normal)
+                {
+                    TriggerBulletIconShake();
+                }
+                lastEggType = currentEgg;
+            }
+            switch (currentEgg)
+            {
+                case EggType.Fire:
+                    currentBulletIconHUD.sprite = bulletSpecial1Sprite;
+                    break;
+                case EggType.Radioactive:
+                    currentBulletIconHUD.sprite = bulletSpecial2Sprite;
+                    break;
+                default:
+                    currentBulletIconHUD.sprite = bulletNormalSprite;
+                    break;
+            }
+        }
+
+        // --- LÓGICA DEL PANEL TEMPORAL (Barra de Power-up) ---
+        if (specialBulletPanel == null) return;
+
         if (currentEgg != EggType.Normal && shotsRemaining > 0)
         {
-            if (!specialEggPanel.activeSelf)
+            if (!specialBulletPanel.activeSelf)
             {
-                specialEggPanel.SetActive(true);
+                specialBulletPanel.SetActive(true);
                 AnimateEggPanelIn();
-            }
-        
-            if (eggIcon != null)
-            {
-                eggIcon.sprite = currentEgg == EggType.Fire ? fireEggSprite : radioactiveEggSprite;
             }
         
             if (progressBarFill != null)
             {
-                // Calcular porcentaje dinámicamente
                 float fillAmount = maxShots > 0 ? (float)shotsRemaining / maxShots : 0f;
                 progressBarFill.fillAmount = fillAmount;
-            
-                // Color según tipo
-                if (currentEgg == EggType.Fire)
-                {
-                    progressBarFill.color = new Color(1f, 0.5f, 0f); // Naranja
-                }
-                else
-                {
-                    progressBarFill.color = new Color(0f, 1f, 0f); // Verde
-                }
+                // progressBarFill.color = (currentEgg == EggType.Fire) ? new Color(1f, 0.5f, 0f) : Color.green;
             }
         }
         else
         {
-            if (specialEggPanel.activeSelf)
+            if (specialBulletPanel.activeSelf)
             {
                 AnimateEggPanelOut();
             }
         }
     }
-
     
-    // Animación de entrada del panel
     void AnimateEggPanelIn()
     {
-        if (specialEggPanel == null) return;
-        
-        CanvasGroup cg = specialEggPanel.GetComponent<CanvasGroup>();
-        if (cg == null) cg = specialEggPanel.AddComponent<CanvasGroup>();
-        
-        cg.alpha = 0f;
-        cg.DOFade(1f, 0.3f);
-        
-        specialEggPanel.transform.localScale = Vector3.zero;
-        specialEggPanel.transform.DOScale(1f, 0.4f).SetEase(Ease.OutBack);
-    }
+        if (specialBulletPanel == null) return;
     
-    // Animación de salida del panel
+        RectTransform rect = specialBulletPanel.GetComponent<RectTransform>();
+        CanvasGroup cg = specialBulletPanel.GetComponent<CanvasGroup>();
+        if (cg == null) cg = specialBulletPanel.AddComponent<CanvasGroup>();
+
+        // Matar animaciones previas para evitar conflictos
+        rect.DOKill();
+        cg.DOKill();
+
+        // Estado inicial: fuera de pantalla y transparente
+        rect.anchoredPosition = new Vector2(rect.anchoredPosition.x, hiddenPosY);
+        cg.alpha = 0f;
+
+        // Animación: Subir y aparecer
+        cg.DOFade(1f, 0.4f).SetUpdate(true);
+        rect.DOAnchorPosY(visiblePosY, 0.5f).SetEase(Ease.OutBack).SetUpdate(true);
+    }
+
     void AnimateEggPanelOut()
     {
-        if (specialEggPanel == null) return;
-        
-        CanvasGroup cg = specialEggPanel.GetComponent<CanvasGroup>();
-        if (cg != null)
-        {
-            cg.DOFade(0f, 0.3f).OnComplete(() => 
-            {
-                if (specialEggPanel != null)
-                {
-                    specialEggPanel.SetActive(false);
-                }
+        if (specialBulletPanel == null) return;
+    
+        RectTransform rect = specialBulletPanel.GetComponent<RectTransform>();
+        CanvasGroup cg = specialBulletPanel.GetComponent<CanvasGroup>();
+
+        rect.DOKill();
+        cg.DOKill();
+
+        // Animación: Bajar y desaparecer
+        cg.DOFade(0f, 0.4f).SetUpdate(true);
+        rect.DOAnchorPosY(hiddenPosY, 0.5f).SetEase(Ease.InBack).SetUpdate(true)
+            .OnComplete(() => {
+                specialBulletPanel.SetActive(false);
             });
-        }
-        else
+    }
+    
+    // Nueva función para el efecto visual
+    void TriggerBulletIconShake()
+    {
+        if (currentBulletIconHUD == null) return;
+
+        // Obtenemos el padre (el Frame_Bullet) para sacudir todo el recuadro
+        Transform frameTransform = currentBulletIconHUD.transform.parent;
+
+        if (frameTransform != null)
         {
-            specialEggPanel.SetActive(false);
+            // Limpiar animaciones previas para que no se acumulen
+            frameTransform.DOKill(true);
+            
+            // Efecto de sacudida: duración 0.5s, fuerza 10, vibración 10
+            frameTransform.DOShakePosition(0.5f, 10f, 10, 90f, false, true).SetUpdate(true);
+            
+            // Opcional: Un pequeño salto de escala para que resalte más
+            frameTransform.DOPunchScale(new Vector3(0.2f, 0.2f, 0f), 0.5f, 5, 1f).SetUpdate(true);
         }
-        
-        specialEggPanel.transform.DOScale(0.8f, 0.3f);
     }
     
     void InitializeKillObjectivesDisplay()
@@ -314,7 +357,7 @@ public class UiManager : MonoBehaviour
                     if (display.killCountText != null)
                     {
                         display.killCountText.text = $"0/{objective.killsRequired}";
-                        display.killCountText.color = Color.white;
+                        // display.killCountText.color = Color.black;
                     }
                 
                     // Establecer icono
@@ -708,7 +751,7 @@ public class UiManager : MonoBehaviour
         }
         else
         {
-            countdownText.color = Color.white;
+            countdownText.color = new Color(191/255f,191/255f,191/255f);
         }
     }
 
@@ -731,11 +774,7 @@ public class UiManager : MonoBehaviour
                     
                     if (objective.currentKills >= objective.killsRequired)
                     {
-                        display.killCountText.color = Color.green;
-                    }
-                    else
-                    {
-                        display.killCountText.color = Color.white;
+                        display.killCountText.color = new Color(17/255f, 130/255f, 24/255f);
                     }
                     
                     break;
@@ -773,7 +812,6 @@ public class UiManager : MonoBehaviour
         }
         else
         {
-            //lifeBar.DOKill(false); 
             lifeBar.color = Color.white;
         }
     }

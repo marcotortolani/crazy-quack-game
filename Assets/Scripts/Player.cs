@@ -430,6 +430,11 @@ public class Player : MonoBehaviour
         life -= amount;
         if (life < 0) life = 0;
         
+        if (myAnimator != null)
+        {
+            myAnimator.SetTrigger("hit");
+        }
+        
         // Reproducir sonido de daño
         if (AudioManager.Instance != null)
         {
